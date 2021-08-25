@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import api from '../api'
+import {getLastNumber} from "../utils/getLastNumber";
 
 const Users = () => {
 	const [users, setUsers] = useState(api.users.fetchAll());
@@ -21,7 +22,7 @@ const Users = () => {
 	})
 	const handleDelete = (userId) => setUsers(users.filter(user => user._id !== userId))
 	const renderPhrase = (number) => {
-		const char = number === 1 || number >= 5 ? '' : 'а'
+		const char = getLastNumber(number) === 1 || getLastNumber(number) >= 5 ? '' : 'а'
 		return number === 0 ? 'Никто с тобой не тусанёт' : `${number} человек${char} тусанёт с тобой сегодня`
 	}
 	const getBadgeClasses = (number) => number === 0 ? 'badge bg-danger' : 'badge bg-primary'
