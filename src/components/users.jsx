@@ -3,6 +3,7 @@ import User from "./user";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import PropTypes from "prop-types";
+import GroupList from "./groupList";
 
 const Users = ({ users: allUser, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,6 +13,7 @@ const Users = ({ users: allUser, ...rest }) => {
     const users = paginate(allUser, currentPage, pageSize);
     return (
         <>
+            <GroupList/>
             {count > 0 && (
                 <table className="table align-middle">
                     <thead>
