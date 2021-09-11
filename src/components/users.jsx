@@ -22,9 +22,7 @@ const Users = ({ users: allUser, ...rest }) => {
         <>
             {profession && <GroupList
                 items={profession}
-                onItemSelect={handleProfessionSelect}
-                valueProperty="_id"
-                contentProperty="name"/>}
+                onItemSelect={handleProfessionSelect}/>}
             {count > 0 && (
                 <table className="table align-middle">
                     <thead>
