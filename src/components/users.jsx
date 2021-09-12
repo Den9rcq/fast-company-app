@@ -9,19 +9,22 @@ import api from "../api";
 const Users = ({ users: allUser, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [profession, setProfession] = useState();
+    const [selectedProf, setSelectedProf] = useState();
     const count = allUser.length;
     const pageSize = 4;
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfession(date));
     }, []);
 
-    const handleProfessionSelect = (param) => console.log(param);
+    const handleProfessionSelect = (item) => setSelectedProf(item);
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
-    const users = paginate(allUser, currentPage, pageSize);
+    const filteredUsers = selectedProf ? allUser.filter((user) => user.profession === selectedProf) : allUser;
+    const users = paginate(filteredUsers, currentPage, pageSize);
     return (
         <>
             {profession && <GroupList
                 items={profession}
+                selectedItem={selectedProf}
                 onItemSelect={handleProfessionSelect}/>}
             {count > 0 && (
                 <table className="table align-middle">
