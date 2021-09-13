@@ -23,11 +23,10 @@ const Users = ({ users: allUser, ...rest }) => {
         setCurrentPage(1);
     };
     const filteredUsers = selectedProf
-        ? allUser.filter((user) => user.profession === selectedProf)
+        ? allUser.filter((user) => user.profession === selectedProf || user.profession._id === selectedProf._id)
         : allUser;
     const count = filteredUsers.length;
     const users = paginate(filteredUsers, currentPage, pageSize);
-
     return (
         <div className="d-flex flex-column">
             <SearchStatus length={count}/>
