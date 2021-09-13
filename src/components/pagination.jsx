@@ -10,7 +10,7 @@ const Pagination = ({ itemCount, pageSize, onPageChange, currentPage }) => {
         <>
             {pageCount > 1 && (
                 <nav aria-label="Page navigation example">
-                    <ul className="pagination">
+                    <ul className="pagination justify-content-center">
                         {pages.map((page) => (
                             <li
                                 key={page}

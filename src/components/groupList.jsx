@@ -17,11 +17,11 @@ GroupList.defaultProps = {
 };
 
 GroupList.propTypes = {
-    items: PropTypes.object.isRequired,
-    onItemSelect: PropTypes.func.isRequired,
+    items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,
-    selectedItem: PropTypes.object
+    selectedItem: PropTypes.object,
+    onItemSelect: PropTypes.func
 };
 
 export default GroupList;
