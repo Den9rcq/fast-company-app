@@ -27,16 +27,7 @@ const Users = ({ users: allUser, ...rest }) => {
     // Выбор страницы
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
     // Сортировка по возрастанию или убыванию
-    const handleSort = (item) => {
-        if (sortBy.iter === item) {
-            setSortBy(prevState => ({
-                ...prevState,
-                order: prevState.order === "asc" ? "desc" : "asc"
-            }));
-        } else {
-            setSortBy({ iter: item, order: "asc" });
-        }
-    };
+    const handleSort = item => setSortBy(item);
     // Очистка профессии
     const clearFilterProfession = () => {
         setSelectedProf();
@@ -70,6 +61,7 @@ const Users = ({ users: allUser, ...rest }) => {
                 {count > 0 && <UsersTable
                     users={users}
                     onSort={handleSort}
+                    currentSort={sortBy}
                     {...rest}/>}
             </div>
             <Pagination
