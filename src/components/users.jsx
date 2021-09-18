@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import User from "./user";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import PropTypes from "prop-types";
 import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from "./searchStatus";
+import UsersTable from "./usersTable";
+import _ from "lodash";
 
 const Users = ({ users: allUser, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [profession, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
     const pageSize = 4;
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfession(date));
@@ -18,6 +20,16 @@ const Users = ({ users: allUser, ...rest }) => {
     useEffect(() => setCurrentPage(1), [selectedProf]);
     const handleProfessionSelect = (item) => setSelectedProf(item);
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
+    const handleSort = (item) => {
+        if (sortBy.iter === item) {
+            setSortBy(prevState => ({
+                ...prevState,
+                order: prevState.order === "asc" ? "desc" : "asc"
+            }));
+        } else {
+            setSortBy({ iter: item, order: "asc" });
+        }
+    };
     const clearFilterProfession = () => {
         setSelectedProf();
         setCurrentPage(1);
@@ -26,7 +38,8 @@ const Users = ({ users: allUser, ...rest }) => {
         ? allUser.filter((user) => user.profession._id === selectedProf._id)
         : allUser;
     const count = filteredUsers.length;
-    const users = paginate(filteredUsers, currentPage, pageSize);
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
+    const users = paginate(sortedUsers, currentPage, pageSize);
     return (
         <div className="d-flex flex-column">
             <SearchStatus length={count}/>
@@ -42,27 +55,10 @@ const Users = ({ users: allUser, ...rest }) => {
                         onClick={clearFilterProfession}>Сброс
                     </button>
                 </div>}
-
-                {count > 0 && (
-                    <table className="table align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col">Имя</th>
-                                <th scope="col">Качества</th>
-                                <th scope="col">Профессия</th>
-                                <th scope="col">Встретился, раз</th>
-                                <th scope="col">Оценка</th>
-                                <th scope="col">Избранное</th>
-                                <th scope="col"/>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user) => (
-                                <User key={user._id} {...rest} {...user} />
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+                {count > 0 && <UsersTable
+                    users={users}
+                    onSort={handleSort}
+                    {...rest}/>}
             </div>
             <Pagination
                 itemCount={count}
