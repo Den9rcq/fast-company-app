@@ -13,13 +13,20 @@ const Users = ({ users: allUser, ...rest }) => {
     const [profession, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+
+    // Установка количество отображаемых пользователей на странице
     const pageSize = 4;
+    // Принятие данных с задержкой(сервера)
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfession(date));
     }, []);
     useEffect(() => setCurrentPage(1), [selectedProf]);
+
+    // Выбор профессии
     const handleProfessionSelect = (item) => setSelectedProf(item);
+    // Выбор страницы
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
+    // Сортировка по возрастанию или убыванию
     const handleSort = (item) => {
         if (sortBy.iter === item) {
             setSortBy(prevState => ({
@@ -30,15 +37,20 @@ const Users = ({ users: allUser, ...rest }) => {
             setSortBy({ iter: item, order: "asc" });
         }
     };
+    // Очистка профессии
     const clearFilterProfession = () => {
         setSelectedProf();
         setCurrentPage(1);
     };
+    // Фильтр пользователей по профессии
     const filteredUsers = selectedProf
         ? allUser.filter((user) => user.profession._id === selectedProf._id)
         : allUser;
+
     const count = filteredUsers.length;
+    // Сортированные пользователи по возрастанию(убыванию)
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
+    // Сортированные пользователи с учётом пагинации
     const users = paginate(sortedUsers, currentPage, pageSize);
     return (
         <div className="d-flex flex-column">
