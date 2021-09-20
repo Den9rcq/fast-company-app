@@ -12,7 +12,7 @@ const Users = ({ users: allUser, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [profession, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
 
     // Установка количество отображаемых пользователей на странице
     const pageSize = 4;
@@ -40,7 +40,7 @@ const Users = ({ users: allUser, ...rest }) => {
 
     const count = filteredUsers.length;
     // Сортированные пользователи по возрастанию(убыванию)
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     // Сортированные пользователи с учётом пагинации
     const users = paginate(sortedUsers, currentPage, pageSize);
     return (

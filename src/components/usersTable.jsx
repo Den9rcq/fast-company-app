@@ -1,25 +1,21 @@
 import React from "react";
-import User from "./user";
 import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
+import TableBody from "./tableBody";
 const UsersTable = ({ users, onSort, selectedSort, ...rest }) => {
     const columns = {
-        name: { iter: "name", name: "Имя" },
+        name: { path: "name", name: "Имя" },
         qualities: { name: "Профессия" },
-        profession: { iter: "profession.name", name: "Профессия" },
-        completedMeetings: { iter: "completedMeetings", name: "Встретился раз" },
-        rate: { iter: "rate", name: "Оценка" },
-        favorites: { iter: "favorites", name: "Избранное" },
+        profession: { path: "profession.name", name: "Профессия" },
+        completedMeetings: { path: "completedMeetings", name: "Встретился раз" },
+        rate: { path: "rate", name: "Оценка" },
+        favorites: { path: "favorites", name: "Избранное" },
         delete: {}
     };
     return (
         <table className="table align-middle">
             <TableHeader {...{ onSort, selectedSort, columns }} />
-            <tbody>
-                {users.map((user) => (
-                    <User key={user._id} {...rest} {...user} />
-                ))}
-            </tbody>
+            <TableBody {...{ columns, data: users }}/>
         </table>
     );
 };

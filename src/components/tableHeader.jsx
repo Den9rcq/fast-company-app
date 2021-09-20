@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     // onSort = setSortBy
     const handleSort = (item) => {
-        if (selectedSort.iter === item) {
+        if (selectedSort.path === item) {
             onSort({
                 ...selectedSort,
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
         } else {
-            onSort({ iter: item, order: "asc" });
+            onSort({ path: item, order: "asc" });
         }
     };
     return (
@@ -20,10 +20,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                     <th
                         key={column}
                         scope="col"
-                        onClick={columns[column].iter
-                            ? () => handleSort(columns[column].iter)
+                        onClick={columns[column].path
+                            ? () => handleSort(columns[column].path)
                             : null}
-                        role={columns[column].iter
+                        role={columns[column].path
                             ? "button"
                             : null}>{columns[column].name}
                     </th>
