@@ -7,7 +7,7 @@ import BookMark from "./bookMark";
 const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
-        qualities: { name: "Профессия" },
+        qualities: { name: "Качества" },
         profession: { path: "profession.name", name: "Профессия" },
         completedMeetings: { path: "completedMeetings", name: "Встретился раз" },
         rate: { path: "rate", name: "Оценка" },

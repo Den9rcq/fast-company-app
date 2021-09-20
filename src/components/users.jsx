@@ -27,7 +27,9 @@ const Users = ({ users: allUser, ...rest }) => {
     // Выбор страницы
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
     // Сортировка по возрастанию или убыванию
-    const handleSort = item => setSortBy(item);
+    const handleSort = item => {
+        setSortBy(item);
+    };
     // Очистка профессии
     const clearFilterProfession = () => {
         setSelectedProf();

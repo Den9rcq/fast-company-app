@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { caretDownFill, caretUpFill } from "../utils/icons";
 const TableHeader = ({ onSort, selectedSort, columns }) => {
-    // onSort = setSortBy
     const handleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({
@@ -13,6 +12,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
+    const { order, path } = selectedSort;
     return (
         <thead>
             <tr>
@@ -25,7 +25,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                             : null}
                         role={columns[column].path
                             ? "button"
-                            : null}>{columns[column].name}
+                            : null}>
+                        {columns[column].name}
+                        {order === "asc" && path === columns[column].path
+                            ? caretDownFill
+                            : order === "desc" && path === columns[column].path
+                                ? caretUpFill
+                                : null}
                     </th>
                 ))}
             </tr>
