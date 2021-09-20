@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TableHeader from "./tableHeader";
-import TableBody from "./tableBody";
 import BookMark from "./bookMark";
 import Quality from "./quality";
+import Table from "./table";
 
 const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => {
     const columns = {
@@ -43,10 +42,11 @@ const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => 
         }
     };
     return (
-        <table className="table align-middle">
-            <TableHeader {...{ onSort, selectedSort, columns }} />
-            <TableBody {...{ columns, data: users }}/>
-        </table>
+        <Table
+            onSort={onSort}
+            selectedSort={selectedSort}
+            columns={columns}
+            data={users}/>
     );
 };
 UsersTable.propTypes = {
