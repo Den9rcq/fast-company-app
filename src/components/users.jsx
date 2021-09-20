@@ -61,7 +61,7 @@ const Users = ({ users: allUser, ...rest }) => {
                 {count > 0 && <UsersTable
                     users={users}
                     onSort={handleSort}
-                    currentSort={sortBy}
+                    selectedSort={sortBy}
                     {...rest}/>}
             </div>
             <Pagination
