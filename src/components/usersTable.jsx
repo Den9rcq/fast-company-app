@@ -3,11 +3,21 @@ import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import BookMark from "./bookMark";
+import Quality from "./quality";
 
 const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
-        qualities: { name: "Качества" },
+        qualities: {
+            name: "Качества",
+            component: (user) => (
+                user.qualities.map((badge) => (
+                    <Quality
+                        key={badge._id}
+                        {...badge} />
+                ))
+            )
+        },
         profession: { path: "profession.name", name: "Профессия" },
         completedMeetings: { path: "completedMeetings", name: "Встретился раз" },
         rate: { path: "rate", name: "Оценка" },
