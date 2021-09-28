@@ -1,59 +1,42 @@
-import React from "react";
-import Quality from "./quality";
-import BookMark from "./bookMark";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import api from "../api";
+import Quality from "./quality";
 
-const User = ({
-    _id,
-    name,
-    qualities,
-    profession,
-    completedMeetings,
-    rate,
-    favorites,
-    onDelete,
-    onToggleMark
-}) => {
+const User = ({ id }) => {
+    const history = useHistory();
+    const [user, setUser] = useState();
+    useEffect(() => {
+        api.users.getById(id).then(user => setUser(user));
+    }, []);
+    const handleAllUsers = () => history.push("/users");
+
     return (
-        <tr>
-            <td>{name}</td>
-            <td>
-                {qualities.map((badge) => (
-                    <Quality key={badge._id} {...badge} />
-                ))}
-            </td>
-            <td>{profession.name}</td>
-            <td>{completedMeetings}</td>
-            <td>{rate} \ 5</td>
-            <td>
-                <BookMark
-                    favorites={favorites}
-                    onToggleMark={onToggleMark}
-                    id={_id}
-                />
-            </td>
-            <td>
-                <button
-                    onClick={() => onDelete(_id)}
-                    type="button"
-                    className="btn btn-danger"
-                >
-                    Удалить
-                </button>
-            </td>
-        </tr>
+        <div>
+            {
+                user
+                    ? (
+                        <div>
+                            <div>{user.name}</div>
+                            <div>Профессия: {user.profession.name}</div>
+                            <div>
+                                {user.qualities.map((badge) => (
+                                    <Quality key={badge._id} {...badge} />
+                                ))}
+                            </div>
+                            <div>completedMeetings: {user.completedMeetings}</div>
+                            <div>Rate {user.rate}</div>
+                            <button onClick={handleAllUsers}>Все пользователи</button>
+                        </div>
+                    )
+                    : <h2>Loading</h2>
+            }
+        </div>
     );
 };
 
 User.propTypes = {
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    qualities: PropTypes.array.isRequired,
-    profession: PropTypes.object.isRequired,
-    completedMeetings: PropTypes.number.isRequired,
-    rate: PropTypes.number.isRequired,
-    favorites: PropTypes.bool.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onToggleMark: PropTypes.func.isRequired
+    id: PropTypes.string.isRequired
 };
 export default User;
