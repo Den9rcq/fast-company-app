@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import api from "../api";
-import Quality from "./quality";
+import QualitiesList from "./qualitiesList";
 
-const User = ({ id }) => {
+const UserPage = ({ id }) => {
     const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
@@ -18,15 +18,11 @@ const User = ({ id }) => {
                 user
                     ? (
                         <div>
-                            <div>{user.name}</div>
-                            <div>Профессия: {user.profession.name}</div>
-                            <div>
-                                {user.qualities.map((badge) => (
-                                    <Quality key={badge._id} {...badge} />
-                                ))}
-                            </div>
-                            <div>completedMeetings: {user.completedMeetings}</div>
-                            <div>Rate {user.rate}</div>
+                            <h1>{user.name}</h1>
+                            <h2>Профессия: {user.profession.name}</h2>
+                            <QualitiesList qualities={user.qualities}/>
+                            <p>completedMeetings: {user.completedMeetings}</p>
+                            <h2>Rate {user.rate}</h2>
                             <button onClick={handleAllUsers}>Все пользователи</button>
                         </div>
                     )
@@ -36,7 +32,7 @@ const User = ({ id }) => {
     );
 };
 
-User.propTypes = {
+UserPage.propTypes = {
     id: PropTypes.string.isRequired
 };
-export default User;
+export default UserPage;
