@@ -7,6 +7,7 @@ import api from "../api";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
+import SearchPanel from "./searchPanel";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +65,7 @@ const UsersList = () => {
                 <div className="d-flex">
                     {profession &&
                 <div className="d-flex flex-column flex-shrink-0 p-3">
+                    <SearchPanel/>
                     <GroupList
                         items={profession}
                         selectedItem={selectedProf}
