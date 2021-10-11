@@ -15,10 +15,13 @@ const UsersList = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [users, setUsers] = useState();
+    const [saveDataBase, setSaveDataBase] = useState();
+    const [searchValue, setSearchValue] = useState("");
 
     // Принятие данных с задержкой(сервера)
     useEffect(() => {
         api.users.fetchAll().then(date => setUsers(date));
+        api.users.fetchAll().then(date => setSaveDataBase(date));
     }, []);
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfession(date));
@@ -36,17 +39,28 @@ const UsersList = () => {
     // Установка количество отображаемых пользователей на странице
     const pageSize = 4;
     // Выбор профессии
-    const handleProfessionSelect = (item) => setSelectedProf(item);
+    const handleProfessionSelect = (item) => {
+        setSelectedProf(item);
+        handleSearchUsersByName("");
+    };
     // Выбор страницы
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
     // Сортировка по возрастанию или убыванию
     const handleSort = item => {
         setSortBy(item);
     };
-    // Очистка профессии
+    // Поиск по имени
+    const handleSearchUsersByName = (value) => {
+        const usersData = [...saveDataBase];
+        setSearchValue(value);
+        const filteredUsers = usersData.filter(u => u.name.toLowerCase().includes(value.toLowerCase()));
+        setUsers(filteredUsers);
+    };
+
     const clearFilterProfession = () => {
         setSelectedProf();
         setCurrentPage(1);
+        handleSearchUsersByName("");
     };
     if (users) {
     // Фильтр пользователей по профессии
@@ -65,11 +79,15 @@ const UsersList = () => {
                 <div className="d-flex">
                     {profession &&
                 <div className="d-flex flex-column flex-shrink-0 p-3">
-                    <SearchPanel/>
+                    <SearchPanel
+                        searchValue={searchValue}
+                        onSearch={handleSearchUsersByName}
+                    />
                     <GroupList
                         items={profession}
                         selectedItem={selectedProf}
-                        onItemSelect={handleProfessionSelect}/>
+                        onItemSelect={handleProfessionSelect}
+                    />
                     <button
                         className="btn btn-secondary mt-2"
                         onClick={clearFilterProfession}>Сброс
