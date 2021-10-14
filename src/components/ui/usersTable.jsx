@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import BookMark from "./bookMark";
-import Quality from "./quality";
-import Table from "./table";
+import BookMark from "../common/bookMark";
+import Table from "../common/table";
 import { Link } from "react-router-dom";
+import Qualities from "./qualities";
 
 const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => {
     const columns = {
@@ -16,13 +16,7 @@ const UsersTable = ({ users, onSort, selectedSort, onToggleMark, onDelete }) => 
         },
         qualities: {
             name: "Качества",
-            component: (user) => (
-                user.qualities.map((badge) => (
-                    <Quality
-                        key={badge._id}
-                        {...badge} />
-                ))
-            )
+            component: (user) => <Qualities qualities={user.qualities} />
         },
         profession: { path: "profession.name", name: "Профессия" },
         completedMeetings: { path: "completedMeetings", name: "Встретился раз" },

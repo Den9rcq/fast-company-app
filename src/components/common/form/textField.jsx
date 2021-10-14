@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { eye, eyeSlash } from "../utils/icons";
+import { eye, eyeSlash } from "../../../utils/icons";
 
 const TextField = ({ label, type, name, value, onChange, errors }) => {
     const [showPassword, setShowPassword] = useState(false);

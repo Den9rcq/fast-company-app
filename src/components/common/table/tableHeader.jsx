@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { caretDownFill, caretUpFill } from "../utils/icons";
+import { caretDownFill, caretUpFill } from "../../../utils/icons";
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const handleSort = (item) => {
         if (selectedSort.path === item) {

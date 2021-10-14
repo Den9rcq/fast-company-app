@@ -1,5 +1,5 @@
 import React from "react";
-import { search } from "../utils/icons";
+import { search } from "../../utils/icons";
 import PropTypes from "prop-types";
 
 const SearchPanel = ({ onSearch, searchValue }) => {

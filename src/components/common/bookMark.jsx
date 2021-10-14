@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { iconFavoritesTrue, iconFavoritesFalse } from "../utils/icons";
+import { iconFavoritesTrue, iconFavoritesFalse } from "../../utils/icons";
 
 const BookMark = ({ favorites, onToggleMark }) => {
     const getFavorites = () =>

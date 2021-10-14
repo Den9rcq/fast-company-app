@@ -1,5 +1,5 @@
 import React from "react";
-import { getLastNumber } from "../utils/getLastNumber";
+import { getLastNumber } from "../../utils/getLastNumber";
 import PropTypes from "prop-types";
 
 const SearchStatus = ({ length }) => {
