@@ -11,7 +11,7 @@ import SearchPanel from "../../common/searchPanel";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [profession, setProfession] = useState();
+    const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [users, setUsers] = useState();
@@ -24,7 +24,7 @@ const UsersListPage = () => {
         api.users.fetchAll().then(date => setSaveDataBase(date));
     }, []);
     useEffect(() => {
-        api.professions.fetchAll().then(date => setProfession(date));
+        api.professions.fetchAll().then(date => setProfessions(date));
     }, []);
     useEffect(() => setCurrentPage(1), [selectedProf]);
 
@@ -78,14 +78,14 @@ const UsersListPage = () => {
             <div className="d-flex flex-column">
                 <SearchStatus length={count}/>
                 <div className="d-flex">
-                    {profession &&
+                    {professions &&
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <SearchPanel
                         searchValue={searchValue}
                         onSearch={handleSearchUsersByName}
                     />
                     <GroupList
-                        items={profession}
+                        items={professions}
                         selectedItem={selectedProf}
                         onItemSelect={handleProfessionSelect}
                     />
