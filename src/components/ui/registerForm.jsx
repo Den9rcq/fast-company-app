@@ -4,23 +4,27 @@ import TextField from "../common/form/textField";
 import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
+import MultiSelectField from "../common/form/multiSelectField";
 
 const RegisterForm = () => {
     const [data, setData] = useState({
         email: "",
         password: "",
         profession: "",
-        sex: "male"
+        sex: "male",
+        qualities: []
     });
     const [errors, setErrors] = useState({});
     const [professions, setProfessions] = useState();
+    const [qualities, setQualities] = useState([]);
 
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfessions(date));
+        api.qualities.fetchAll().then(date => setQualities(date));
     }, []);
 
     // Изменение данных в data
-    const handleChange = ({ target }) => {
+    const handleChange = (target) => {
         setData(prevState => ({
             ...prevState,
             [target.name]: target.value
@@ -112,7 +116,13 @@ const RegisterForm = () => {
                     { name: "Other", value: "other" }
                 ]}
                 value={data.sex}
-                name={"sex"}
+                name="sex"
+                onChange={handleChange}
+            />
+            <MultiSelectField
+                label="Выберите ваши качества"
+                options={qualities}
+                name="qualities"
                 onChange={handleChange}
             />
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
