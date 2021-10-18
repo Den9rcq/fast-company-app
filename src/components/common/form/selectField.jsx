@@ -7,7 +7,7 @@ const SelectField = ({
     onChange,
     defaultOption,
     options,
-    error
+    errors
 }) => {
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(optionName => ({ name: options[optionName].name, value: options[optionName]._id }))
@@ -18,7 +18,7 @@ const SelectField = ({
                 {label}
             </label>
             <select
-                className={`form-select is-${error ? "invalid" : "valid"}`}
+                className={`form-select is-${errors ? "invalid" : "valid"}`}
                 id="validationCustom04"
                 name="profession"
                 value={value}
@@ -30,16 +30,16 @@ const SelectField = ({
                 {
                     optionsArray && optionsArray.map(option =>
                         <option
-                            key={option.name}
-                            value={option.value}
+                            key={option._id || option.value}
+                            value={option._id || option.value}
                         >
                             {option.name}
                         </option>
                     )
                 }
             </select>
-            {error && <div className="invalid-feedback">
-                {error}
+            {errors && <div className="invalid-feedback">
+                {errors}
             </div>}
         </div>
     );
@@ -51,7 +51,7 @@ SelectField.propTypes = {
     onChange: PropTypes.func,
     defaultOption: PropTypes.string,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    error: PropTypes.string
+    errors: PropTypes.string
 };
 
 export default SelectField;
