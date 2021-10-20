@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import api from "../../api";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
-import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
-import CheckBoxField from "../common/form/checkBoxField";
+import { useHistory } from "react-router-dom";
 
-const RegisterForm = () => {
+const UserForm = ({ user }) => {
     const [data, setData] = useState({
+        ...user,
+        name: user.name,
         email: "",
-        password: "",
-        profession: "",
+        profession: user.profession,
         sex: "male",
-        qualities: [],
-        license: false
+        qualities: user.qualities
     });
     const [errors, setErrors] = useState({});
     const [professions, setProfessions] = useState();
     const [qualities, setQualities] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfessions(date));
         api.qualities.fetchAll().then(date => setQualities(date));
+        console.log(data);
     }, []);
 
     // Изменение данных в data
@@ -31,6 +34,7 @@ const RegisterForm = () => {
             ...prevState,
             [target.name]: target.value
         }));
+        console.log(data);
     };
 
     // Отправка данных
@@ -38,7 +42,8 @@ const RegisterForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        api.users.update(user._id, data);
+        history.push(`/users/${user._id}`);
     };
 
     // Проверка при изменениях в data
@@ -48,6 +53,11 @@ const RegisterForm = () => {
 
     // Конфигурация отображение ошибок
     const validatorConfig = {
+        name: {
+            isRequired: {
+                message: "Имя обязательно"
+            }
+        },
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
@@ -56,29 +66,9 @@ const RegisterForm = () => {
                 message: "Email введён не корректно"
             }
         },
-        password: {
-            isRequired: {
-                message: "Пароль обязателен для заполнения"
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одну цифру"
-            },
-            isMinCharacters: {
-                message: `Пароль должен состоять минимум из 8 символов`,
-                value: 8
-            }
-        },
         profession: {
             isRequired: {
                 message: "Обязательно выберите вашу профессию"
-            }
-        },
-        license: {
-            isRequired: {
-                message: "Вы не можете использовать наш сервис без лицензионного соглашения"
             }
         }
     };
@@ -93,19 +83,18 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                errors={errors.name}
+            />
+            <TextField
                 label="Электронная почта"
                 name="email"
                 value={data.email}
                 onChange={handleChange}
                 errors={errors.email}
-            />
-            <TextField
-                label="Пароль"
-                type="password"
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-                errors={errors.password}
             />
             <SelectField
                 label="Выберите свою профессию"
@@ -131,21 +120,16 @@ const RegisterForm = () => {
                 options={qualities}
                 name="qualities"
                 onChange={handleChange}
+                defaultValue={data.qualities}
             />
-            <CheckBoxField
-                name="license"
-                value={data.license}
-                onChange={handleChange}
-                label="Принимаете условия соглашения"
-                errors={errors.license}
-            >
-                Подтвердить <a>лицензионное соглашение</a>
-            </CheckBoxField>
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
-                Submit
+                Обновить
             </button>
         </form>
     );
 };
+UserForm.propTypes = {
+    user: PropTypes.object
+};
 
-export default RegisterForm;
+export default UserForm;

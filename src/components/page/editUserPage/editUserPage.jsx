@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../../api";
+import PropTypes from "prop-types";
+import UserForm from "../../ui/userForm";
 
-const EditUserPage = () => {
+const EditUserPage = ({ id }) => {
+    const [user, setUser] = useState();
+    useEffect(() => {
+        api.users.getById(id).then(user => setUser(user));
+    }, []);
     return (
-        <div>
-            Edit
-        </div>
+        <>
+            {user &&
+            <UserForm
+                user={user}
+            />}
+        </>
     );
 };
-
+EditUserPage.propTypes = {
+    id: PropTypes.string
+};
 export default EditUserPage;

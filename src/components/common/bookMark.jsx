@@ -12,7 +12,7 @@ const BookMark = ({ favorites, onToggleMark }) => {
     );
 };
 BookMark.propTypes = {
-    favorites: PropTypes.bool.isRequired,
+    favorites: PropTypes.bool,
     onToggleMark: PropTypes.func.isRequired
 };
 export default BookMark;

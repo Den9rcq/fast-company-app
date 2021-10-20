@@ -13,9 +13,10 @@ const SelectField = ({
         ? Object.keys(options).map(optionName => ({ name: options[optionName].name, value: options[optionName]._id }))
         : options;
     const handleChange = ({ target }) => {
-        console.log(target);
-        onChange({ name: target.name, value: target.value });
+        const professionObj = optionsArray.find(p => p.value === target.value);
+        onChange({ name: target.name, value: professionObj });
     };
+
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">

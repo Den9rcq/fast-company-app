@@ -8,7 +8,7 @@ const Users = () => {
     const { userId, edit } = useParams();
     return (
         <>
-            {edit ? <EditUserPage/> : userId ? <UserPage id={userId}/> : <UsersListPage/>}
+            {edit ? <EditUserPage id={userId}/> : userId ? <UserPage id={userId}/> : <UsersListPage/>}
         </>
     );
 };

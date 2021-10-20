@@ -3,13 +3,14 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import api from "../../../api";
 import Qualities from "../../ui/qualities";
+
 const UserPage = ({ id }) => {
     const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(id).then(user => setUser(user));
     }, []);
-    const handleAllUsers = () => history.push(`/users/${id}/edit`);
+    const handleEditUsers = () => history.push(`/users/${id}/edit`);
 
     return (
         <div>
@@ -22,7 +23,7 @@ const UserPage = ({ id }) => {
                             <Qualities qualities={user.qualities}/>
                             <p>completedMeetings: {user.completedMeetings}</p>
                             <h2>Rate {user.rate}</h2>
-                            <button onClick={handleAllUsers}>Изменить</button>
+                            <button onClick={handleEditUsers}>Изменить</button>
                         </div>
                     )
                     : <h2>Loading</h2>
