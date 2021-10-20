@@ -2,12 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import UsersListPage from "../components/page/usersListPage";
 import UserPage from "../components/page/userPage";
+import EditUserPage from "../components/page/editUserPage";
 
 const Users = () => {
-    const { userId } = useParams();
+    const { userId, edit } = useParams();
     return (
         <>
-            {userId ? <UserPage id={userId}/> : <UsersListPage/>}
+            {edit ? <EditUserPage/> : userId ? <UserPage id={userId}/> : <UsersListPage/>}
         </>
     );
 };

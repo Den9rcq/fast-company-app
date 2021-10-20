@@ -9,7 +9,7 @@ const UserPage = ({ id }) => {
     useEffect(() => {
         api.users.getById(id).then(user => setUser(user));
     }, []);
-    const handleAllUsers = () => history.push("/users");
+    const handleAllUsers = () => history.push(`/users/${id}/edit`);
 
     return (
         <div>
@@ -22,7 +22,7 @@ const UserPage = ({ id }) => {
                             <Qualities qualities={user.qualities}/>
                             <p>completedMeetings: {user.completedMeetings}</p>
                             <h2>Rate {user.rate}</h2>
-                            <button onClick={handleAllUsers}>Все пользователи</button>
+                            <button onClick={handleAllUsers}>Изменить</button>
                         </div>
                     )
                     : <h2>Loading</h2>
