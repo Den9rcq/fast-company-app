@@ -1,6 +1,7 @@
 import React from "react";
 import { caretDownFill, caretUpFill, gear } from "../../../utils/icons";
 import PropTypes from "prop-types";
+import Avatar from "../../common/avatar";
 
 const UserCard = ({ user, onClick }) => {
     const { name, profession, rate } = user;
@@ -14,17 +15,7 @@ const UserCard = ({ user, onClick }) => {
                     {gear}
                 </button>
                 <div className="d-flex flex-column align-items-center text-center position-relative">
-                    <img
-                        src={`https://avatars.dicebear.com/api/avataaars/${(
-                            Math.random() + 1
-                        )
-                            .toString(36)
-                            .substring(7)}.svg`}
-                        className="rounded-circle shadow-1-strong me-3"
-                        alt="avatar"
-                        width="65"
-                        height="65"
-                    />
+                    <Avatar/>
                     <div className="mt-3">
                         <h4>{name}</h4>
                         <p className="text-secondary mb-1">{profession.name}</p>

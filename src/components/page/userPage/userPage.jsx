@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../../../api";
 import UserInfoCards from "../../ui/userInfoCards";
+import UserCommentCards from "../../ui/userCommentCards";
 
 const UserPage = ({ id }) => {
     const [user, setUser] = useState();
@@ -16,9 +17,7 @@ const UserPage = ({ id }) => {
                         <div className="container">
                             <div className="row gutters-sm">
                                 <UserInfoCards user={user} />
-                                <div className="col-md-8">
-                                    new comments
-                                </div>
+                                <UserCommentCards/>
                             </div>
 
                         </div>
