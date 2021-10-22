@@ -31,6 +31,11 @@ const CommentForm = ({ users, pageId }) => {
         const isValid = validate();
         if (!isValid) return;
         api.comments.add(data);
+        setData({
+            pageId,
+            userId: "",
+            content: ""
+        });
     };
 
     // Проверка при изменениях в data
