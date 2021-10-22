@@ -12,7 +12,7 @@ const UserForm = ({ user }) => {
     const [data, setData] = useState({
         ...user,
         name: user.name,
-        email: "",
+        email: user.email ? user.email : "",
         profession: user.profession,
         sex: "male",
         qualities: user.qualities

@@ -24,7 +24,7 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
                 classNamePrefix="select"
                 onChange={handleChange}
                 name={name}
-                defaultValue={defaultValue.map(v => ({ label: v.name, value: v._id, color: v.color }))}
+                defaultValue={defaultValue && defaultValue.map(v => ({ label: v.name, value: v._id, color: v.color }))}
             />
         </div>
     );
