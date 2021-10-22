@@ -1,8 +1,8 @@
 import React from "react";
-import { caretDownFill, caretUpFill, gear } from "../../utils/icons";
+import { caretDownFill, caretUpFill, gear } from "../../../utils/icons";
 import PropTypes from "prop-types";
 
-const UserCardBody = ({ user, onClick }) => {
+const UserCard = ({ user, onClick }) => {
     const { name, profession, rate } = user;
     return (
         <div className="card mb-3">
@@ -42,9 +42,9 @@ const UserCardBody = ({ user, onClick }) => {
     );
 };
 
-UserCardBody.propTypes = {
+UserCard.propTypes = {
     user: PropTypes.object,
     onClick: PropTypes.func
 };
 
-export default UserCardBody;
+export default UserCard;

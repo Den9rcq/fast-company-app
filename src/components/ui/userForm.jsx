@@ -25,7 +25,6 @@ const UserForm = ({ user }) => {
     useEffect(() => {
         api.professions.fetchAll().then(date => setProfessions(date));
         api.qualities.fetchAll().then(date => setQualities(date));
-        console.log(data);
     }, []);
 
     // Изменение данных в data
@@ -34,7 +33,6 @@ const UserForm = ({ user }) => {
             ...prevState,
             [target.name]: target.value
         }));
-        console.log(data);
     };
 
     // Отправка данных

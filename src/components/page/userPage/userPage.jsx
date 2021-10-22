@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import api from "../../../api";
-import UserCardBody from "../../ui/userCardBody";
+import UserInfoCards from "../../ui/userInfoCards";
 
 const UserPage = ({ id }) => {
-    const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(id).then(user => setUser(user));
     }, []);
-    const handleEditUsers = () => history.push(`/users/${id}/edit`);
-
     return (
         <div>
             {
@@ -19,11 +15,9 @@ const UserPage = ({ id }) => {
                     ? (
                         <div className="container">
                             <div className="row gutters-sm">
-                                <div className="col-md-4 mb-3">
-                                    <UserCardBody user={user} onClick={handleEditUsers}/>
-                                </div>
+                                <UserInfoCards user={user} />
                                 <div className="col-md-8">
-                                    <h2>New comment</h2>
+                                    new comments
                                 </div>
                             </div>
 
