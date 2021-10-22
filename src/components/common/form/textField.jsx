@@ -12,14 +12,23 @@ const TextField = ({ label, type, name, value, onChange, errors }) => {
         <div className="mb-4">
             <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
-                <input
-                    className={`form-control is-${errors ? "invalid" : "valid"}`}
-                    type={showPassword ? "text" : type}
-                    id={name}
-                    name={name}
-                    value={value}
-                    onChange={handleChange}
-                />
+                {type === "textarea"
+                    ? <textarea className={`form-control is-${errors ? "invalid" : "valid"}`}
+                                id={name}
+                                name={name}
+                                onChange={handleChange}
+                                value={value}
+                                cols="100"
+                    />
+                    : <input
+                        className={`form-control is-${errors ? "invalid" : "valid"}`}
+                        type={showPassword ? "text" : type}
+                        id={name}
+                        name={name}
+                        value={value}
+                        onChange={handleChange}
+                    />
+                }
                 {type === "password" && (
                     <button
                         className="btn btn-outline-secondary"

@@ -101,6 +101,7 @@ const UserForm = ({ user }) => {
                 defaultOption="Chose..."
                 options={professions}
                 errors={errors.profession}
+                name="profession"
             />
             <RadioField
                 label="Выберите пол"
@@ -122,6 +123,12 @@ const UserForm = ({ user }) => {
             />
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
                 Обновить
+            </button>
+            <button
+                className="btn btn-danger w-100 mt-3 mx-auto"
+                onClick={() => history.push(`/users/${user._id}`)}
+            >
+                Назад
             </button>
         </form>
     );

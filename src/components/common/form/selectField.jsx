@@ -7,16 +7,16 @@ const SelectField = ({
     onChange,
     defaultOption,
     options,
-    errors
+    errors,
+    name
 }) => {
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(optionName => ({ name: options[optionName].name, value: options[optionName]._id }))
         : options;
     const handleChange = ({ target }) => {
-        const professionObj = optionsArray.find(p => p.value === target.value);
-        onChange({ name: target.name, value: professionObj });
+        const findObj = optionsArray.find(p => p.value === target.value);
+        onChange({ name: target.name, value: findObj || target.value });
     };
-
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">
@@ -25,11 +25,11 @@ const SelectField = ({
             <select
                 className={`form-select is-${errors ? "invalid" : "valid"}`}
                 id="validationCustom04"
-                name="profession"
+                name={name}
                 value={value}
                 onChange={handleChange}
             >
-                <option value="" disabled>
+                <option value="" selected disabled>
                     {defaultOption}
                 </option>
                 {
@@ -56,7 +56,8 @@ SelectField.propTypes = {
     onChange: PropTypes.func,
     defaultOption: PropTypes.string,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    errors: PropTypes.string
+    errors: PropTypes.string,
+    name: PropTypes.string
 };
 
 export default SelectField;

@@ -17,7 +17,7 @@ const UserPage = ({ id }) => {
                         <div className="container">
                             <div className="row gutters-sm">
                                 <UserInfoCards user={user} />
-                                <UserCommentCards/>
+                                <UserCommentCards id={id}/>
                             </div>
 
                         </div>
