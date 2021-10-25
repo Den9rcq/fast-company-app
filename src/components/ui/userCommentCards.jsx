@@ -40,6 +40,8 @@ const UserCommentCards = ({ id }) => {
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
     };
 
+    const sortedComments = commentsForUser.sort((a, b) => b.created_at - a.created_at);
+
     return (
         <div className="col-md-8">
             <div className="card mb-3">
@@ -49,7 +51,7 @@ const UserCommentCards = ({ id }) => {
                     onChange={handleChange}
                     onSubmit={handleSubmit}/>
                 {users && commentsForUser.length !== 0 && <CommentsList
-                    comments={commentsForUser}
+                    comments={sortedComments}
                     users={users}
                     onClick={handleClick}
                 />}
