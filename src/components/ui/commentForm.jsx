@@ -4,17 +4,30 @@ import SelectField from "../common/form/selectField";
 import TextField from "../common/form/textField";
 import PropTypes from "prop-types";
 
-const CommentForm = ({ users, data, onChange, onSubmit }) => {
+const CommentForm = ({ users, pageId, onSubmit }) => {
+    const [data, setData] = useState({
+        pageId: pageId,
+        userId: "",
+        content: ""
+    });
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
-        onChange(target);
+        setData(prevState => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
     };
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        onSubmit();
+        onSubmit(data);
+        setData({
+            pageId: pageId,
+            userId: "",
+            content: ""
+        });
     };
 
     // Проверка при изменениях в data
@@ -74,7 +87,7 @@ const CommentForm = ({ users, data, onChange, onSubmit }) => {
 CommentForm.propTypes = {
     users: PropTypes.array,
     data: PropTypes.object,
-    onChange: PropTypes.func,
+    pageId: PropTypes.string,
     onSubmit: PropTypes.func
 };
 

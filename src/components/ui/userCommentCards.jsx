@@ -6,34 +6,16 @@ import CommentsList from "./commentsList";
 
 const UserCommentCards = ({ id }) => {
     const [users, setUsers] = useState();
-    const [data, setData] = useState({
-        pageId: id,
-        userId: "",
-        content: ""
-    });
     const [commentsForUser, setCommentsForUser] = useState([]);
     useEffect(() => {
         api.users.fetchAll().then(date => setUsers(date));
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
     }, []);
 
-    // Изменение данных в data
-    const handleChange = (target) => {
-        setData(prevState => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
     // Отправка данных
-    const handleSubmit = () => {
+    const handleSubmit = (data) => {
         api.comments.add(data);
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
-        setData({
-            pageId: id,
-            userId: "",
-            content: ""
-        });
-        console.log(commentsForUser);
     };
     const handleClick = (commentId) => {
         api.comments.remove(commentId);
@@ -47,8 +29,7 @@ const UserCommentCards = ({ id }) => {
             <div className="card mb-3">
                 <CommentForm
                     users={users}
-                    data={data}
-                    onChange={handleChange}
+                    pageId={id}
                     onSubmit={handleSubmit}/>
                 {users && commentsForUser.length !== 0 && <CommentsList
                     comments={sortedComments}
