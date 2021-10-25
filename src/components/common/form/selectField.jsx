@@ -29,7 +29,7 @@ const SelectField = ({
                 value={value}
                 onChange={handleChange}
             >
-                <option value="" selected disabled>
+                <option value="" disabled>
                     {defaultOption}
                 </option>
                 {
