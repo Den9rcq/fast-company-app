@@ -29,10 +29,11 @@ const UserCommentCards = ({ id }) => {
         api.comments.add(data);
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
         setData({
-            id,
+            pageId: id,
             userId: "",
             content: ""
         });
+        console.log(commentsForUser);
     };
     const handleClick = (commentId) => {
         api.comments.remove(commentId);
