@@ -8,8 +8,6 @@ export const getTimeDisplay = (time) => {
     const dateMinutes = zero(dateTime.getMinutes());
     const differenceTimeMinutes = (currentTime - time) / 1000 / 60;
 
-    console.log(`${dateDay}.${dateMonth}.${dateYear}`);
-
     if (differenceTimeMinutes <= 1) {
         return "1 минуту назад";
     } else if (differenceTimeMinutes > 1 && differenceTimeMinutes <= 5) {
