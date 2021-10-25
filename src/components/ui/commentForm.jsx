@@ -3,39 +3,18 @@ import { validator } from "../../utils/validator";
 import SelectField from "../common/form/selectField";
 import TextField from "../common/form/textField";
 import PropTypes from "prop-types";
-import api from "../../api";
 
-const CommentForm = ({ users, pageId }) => {
-    const [data, setData] = useState({
-        pageId: pageId,
-        userId: "",
-        content: ""
-    });
+const CommentForm = ({ users, data, onChange, onSubmit }) => {
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        api.comments.fetchAll().then(data => console.log(data));
-    }, [data]);
-
-    // Изменение данных в data
     const handleChange = (target) => {
-        setData(prevState => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
+        onChange(target);
     };
-
-    // Отправка данных
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        api.comments.add(data);
-        setData({
-            pageId,
-            userId: "",
-            content: ""
-        });
+        onSubmit();
     };
 
     // Проверка при изменениях в data
@@ -94,7 +73,9 @@ const CommentForm = ({ users, pageId }) => {
 
 CommentForm.propTypes = {
     users: PropTypes.array,
-    pageId: PropTypes.string
+    data: PropTypes.object,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func
 };
 
 export default CommentForm;

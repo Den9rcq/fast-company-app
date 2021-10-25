@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
-import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
 import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
@@ -115,8 +114,5 @@ const UsersListPage = () => {
             <h2 className='text-center mt-5 text-danger'>Loading...</h2>
         );
     }
-};
-UsersListPage.propTypes = {
-    users: PropTypes.array
 };
 export default UsersListPage;
