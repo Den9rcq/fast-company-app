@@ -17,6 +17,7 @@ const UserCommentCards = ({ id }) => {
         api.comments.add(data);
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
     };
+    // Удаление данных
     const handleClick = (commentId) => {
         api.comments.remove(commentId);
         api.comments.fetchCommentsForUser(id).then(date => setCommentsForUser(date));
