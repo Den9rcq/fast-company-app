@@ -2,7 +2,7 @@ import React from "react";
 import { search } from "../../utils/icons";
 import PropTypes from "prop-types";
 
-const SearchPanel = ({ onSearch, searchValue }) => {
+const SearchPanel = ({ onSearch, searchValue, name }) => {
     const onChangeValue = ({ target }) => {
         const { value } = target;
         onSearch(value);
@@ -14,6 +14,7 @@ const SearchPanel = ({ onSearch, searchValue }) => {
                 <input
                     value={searchValue}
                     onChange={onChangeValue}
+                    name={name}
                     type="text"
                     className="form-control"
                     placeholder="Search"
@@ -27,6 +28,7 @@ const SearchPanel = ({ onSearch, searchValue }) => {
 };
 SearchPanel.propTypes = {
     onSearch: PropTypes.func,
-    searchValue: PropTypes.string
+    searchValue: PropTypes.string,
+    name: PropTypes.string
 };
 export default SearchPanel;
