@@ -2,23 +2,20 @@ import React, { useEffect, useState } from "react";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
 import GroupList from "../../common/groupList";
-import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchPanel from "../../common/searchPanel";
 import { useUsers } from "../../../hooks/useUsers";
+import { useProfession } from "../../../hooks/useProfession";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
     const { users } = useUsers();
-    useEffect(() => {
-        api.professions.fetchAll().then(date => setProfessions(date));
-    }, []);
+    const { professions } = useProfession();
     useEffect(() => setCurrentPage(1), [selectedProf, searchQuery]);
 
     // Удаление ползователя из листа
@@ -63,7 +60,6 @@ const UsersListPage = () => {
         : selectedProf
             ? users.filter((user) => user.profession._id === selectedProf._id)
             : users;
-
     const count = filteredUsers.length;
     // Сортированные пользователи по возрастанию(убыванию)
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);

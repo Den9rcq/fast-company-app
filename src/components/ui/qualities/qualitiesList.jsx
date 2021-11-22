@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 const QualitiesList = ({ qualities }) => {
     return (
         <>
-            {qualities.map((badge) => (
-                <Quality key={badge._id} {...badge} />
+            {qualities.map((id) => (
+                <Quality key={id} id={id} />
             ))}
         </>
     );
