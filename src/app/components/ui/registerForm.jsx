@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
-import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
+import { useQuality } from "../../hooks/useQuality";
+import { useProfession } from "../../hooks/useProfession";
+import { useAuth } from "../../hooks/useAuth";
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -17,13 +19,9 @@ const RegisterForm = () => {
         license: false
     });
     const [errors, setErrors] = useState({});
-    const [professions, setProfessions] = useState();
-    const [qualities, setQualities] = useState([]);
-
-    useEffect(() => {
-        api.professions.fetchAll().then(date => setProfessions(date));
-        api.qualities.fetchAll().then(date => setQualities(date));
-    }, []);
+    const { professions } = useProfession();
+    const { qualities } = useQuality();
+    const { singUp } = useAuth();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -38,7 +36,9 @@ const RegisterForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        const newData = { ...data, qualities: data.qualities.map(q => q._id) };
+        console.log(newData);
+        singUp(newData);
     };
 
     // Проверка при изменениях в data
