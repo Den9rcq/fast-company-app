@@ -35,8 +35,36 @@ export const AuthProvider = ({ children }) => {
             await createUser({ _id: data.localId, email, ...rest });
         } catch (e) {
             errorCatcher(e);
+            const { code, message } = e.response.data.error;
+            if (code === 400) {
+                if (message === "EMAIL_EXISTS") {
+                    const errorObject = {
+                        email: "Пользователь с таким Email уже существует"
+                    };
+                    throw errorObject;
+                }
+            }
         }
     }
+
+    async function singIn({ email, password }) {
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
+        try {
+            const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true });
+            await setTokens(data);
+        } catch (e) {
+            const { code, message } = e.response.data.error;
+            if (code === 400) {
+                if (message === "EMAIL_NOT_FOUND" || message === "INVALID_PASSWORD") {
+                    const errorObject = {
+                        email: "Данные введены некорректно"
+                    };
+                    throw errorObject;
+                }
+            }
+        }
+    }
+
     const createUser = async (data) => {
         try {
             const { content } = await userService.create(data);
@@ -47,7 +75,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ singUp, currentUser }}>
+        <AuthContext.Provider value={{ singUp, singIn, currentUser }}>
             {children}
         </AuthContext.Provider>
     );

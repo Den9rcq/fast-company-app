@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -10,6 +13,8 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
+    const { singIn } = useAuth();
+    const history = useHistory();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -20,11 +25,17 @@ const LoginForm = () => {
     };
 
     // Отправка данных
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        try {
+            await singIn(data);
+            toast.success("Вход выполнен");
+            history.push("/");
+        } catch (e) {
+            toast.error("Данные введены некоректно");
+        }
     };
 
     // Проверка при изменениях в data
@@ -92,7 +103,7 @@ const LoginForm = () => {
                 Оставаться в сети
             </CheckBoxField>
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
-                            Submit
+                Submit
             </button>
         </form>
     );

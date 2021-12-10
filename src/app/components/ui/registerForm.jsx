@@ -8,6 +8,8 @@ import CheckBoxField from "../common/form/checkBoxField";
 import { useQuality } from "../../hooks/useQuality";
 import { useProfession } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -22,6 +24,7 @@ const RegisterForm = () => {
     const { professions } = useProfession();
     const { qualities } = useQuality();
     const { singUp } = useAuth();
+    const history = useHistory();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -32,13 +35,18 @@ const RegisterForm = () => {
     };
 
     // Отправка данных
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         const newData = { ...data, qualities: data.qualities.map(q => q._id) };
-        console.log(newData);
-        singUp(newData);
+        try {
+            await singUp(newData);
+            toast.success("Пользователь создан");
+            history.push("/");
+        } catch (e) {
+            setErrors(e);
+        }
     };
 
     // Проверка при изменениях в data
