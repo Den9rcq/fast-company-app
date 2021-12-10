@@ -55,9 +55,17 @@ export const AuthProvider = ({ children }) => {
         } catch (e) {
             const { code, message } = e.response.data.error;
             if (code === 400) {
-                if (message === "EMAIL_NOT_FOUND" || message === "INVALID_PASSWORD") {
-                    const errorObject = {
+                let errorObject;
+                if (message === "EMAIL_NOT_FOUND") {
+                    errorObject = {
                         email: "Пользователь с таким Email не существует"
+                    };
+                    throw errorObject;
+                }
+                if (message === "INVALID_PASSWORD") {
+                    errorObject = {
+                        email: "Данные введены не коректно",
+                        password: "Данные введены не коректно"
                     };
                     throw errorObject;
                 }

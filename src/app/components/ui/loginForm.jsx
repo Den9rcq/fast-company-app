@@ -34,6 +34,7 @@ const LoginForm = () => {
             toast.success("Вход выполнен");
             history.push("/");
         } catch (e) {
+            setErrors(e);
             toast.error("Данные введены некоректно");
         }
     };
