@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import userService from "../services/user.service";
 import { toast } from "react-toastify";
-import { setTokens } from "../services/localStorage.service";
+import localStorageService, { setTokens } from "../services/localStorage.service";
 
 const httpAuth = axios.create();
 
@@ -27,12 +27,35 @@ export const AuthProvider = ({ children }) => {
         }, [errors]
     );
 
+    useEffect(() => {
+        if (localStorageService.getAccessToken()) {
+            getUserData();
+        }
+    }, []);
+
+    const getUserData = async () => {
+        try {
+            const { content } = await userService.getCurrentUser();
+            setUser(content);
+        } catch (e) {
+            errorCatcher(e);
+        }
+    };
+
+    const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
     async function singUp({ email, password, ...rest }) {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true });
             await setTokens(data);
-            await createUser({ _id: data.localId, email, ...rest });
+            await createUser({
+                _id: data.localId,
+                email,
+                rate: randomInt(1, 5),
+                completedMeetings: randomInt(0, 200),
+                ...rest
+            });
         } catch (e) {
             errorCatcher(e);
             const { code, message } = e.response.data.error;
@@ -52,6 +75,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true });
             await setTokens(data);
+            await getUserData();
         } catch (e) {
             const { code, message } = e.response.data.error;
             if (code === 400) {
