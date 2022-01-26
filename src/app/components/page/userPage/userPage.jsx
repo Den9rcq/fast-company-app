@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import api from "../../../api";
 import UserInfoCards from "../../ui/userInfoCards";
 import UserCommentCards from "../../ui/userCommentCards";
+import { useUsers } from "../../../hooks/useUsers";
 
 const UserPage = ({ id }) => {
-    const [user, setUser] = useState();
-    useEffect(() => {
-        api.users.getById(id).then(user => setUser(user));
-    }, []);
+    const { getUserById } = useUsers();
+    const user = getUserById(id);
     return (
         <div>
             {

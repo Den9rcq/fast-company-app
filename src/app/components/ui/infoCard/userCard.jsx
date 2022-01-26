@@ -2,20 +2,24 @@ import React from "react";
 import { caretDownFill, caretUpFill, gear } from "../../../utils/icons";
 import PropTypes from "prop-types";
 import Avatar from "../../common/avatar";
+import { useAuth } from "../../../hooks/useAuth";
 
 const UserCard = ({ user, onClick }) => {
+    const { currentUser } = useAuth();
     const { name, profession, rate } = user;
     return (
         <div className="card mb-3">
             <div className="card-body">
-                <button
-                    className="position-absolute top-0 end-0 btn btn-light btn-sm"
-                    onClick={onClick}
-                >
-                    {gear}
-                </button>
+                {currentUser._id === user._id && (
+                    <button
+                        className="position-absolute top-0 end-0 btn btn-light btn-sm"
+                        onClick={onClick}
+                    >
+                        {gear}
+                    </button>
+                )}
                 <div className="d-flex flex-column align-items-center text-center position-relative">
-                    <Avatar/>
+                    <Avatar url={user.image}/>
                     <div className="mt-3">
                         <h4>{name}</h4>
                         <p className="text-secondary mb-1">{profession.name}</p>

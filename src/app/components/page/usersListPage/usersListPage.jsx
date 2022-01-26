@@ -8,6 +8,7 @@ import _ from "lodash";
 import SearchPanel from "../../common/searchPanel";
 import { useUsers } from "../../../hooks/useUsers";
 import { useProfession } from "../../../hooks/useProfession";
+import { useAuth } from "../../../hooks/useAuth";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +17,7 @@ const UsersListPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const { users } = useUsers();
     const { professions, isLoading: professionLoading } = useProfession();
+    const { currentUser } = useAuth();
     useEffect(() => setCurrentPage(1), [selectedProf, searchQuery]);
 
     // Удаление ползователя из листа
@@ -53,11 +55,18 @@ const UsersListPage = () => {
         setSearchQuery("");
     };
     // Фильтр пользователей по профессии и имени
-    const filteredUsers = searchQuery
-        ? users.filter(user => user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
-        : selectedProf
-            ? users.filter((user) => user.profession === selectedProf._id)
-            : users;
+
+    const filterUsers = (data) => {
+        const filteredUsers = searchQuery
+            ? users.filter(data => data.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+            : selectedProf
+                ? users.filter((data) => data.profession === selectedProf._id)
+                : users;
+
+        return filteredUsers.filter(user => user._id !== currentUser._id);
+    };
+
+    const filteredUsers = filterUsers(users);
     const count = filteredUsers.length;
     // Сортированные пользователи по возрастанию(убыванию)
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
