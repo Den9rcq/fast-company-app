@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import UserInfoCards from "../../ui/userInfoCards";
 import UserCommentCards from "../../ui/userCommentCards";
 import { useUsers } from "../../../hooks/useUsers";
+import { CommentsProvider } from "../../../hooks/useComments";
 
 const UserPage = ({ id }) => {
     const { getUserById } = useUsers();
@@ -15,7 +16,9 @@ const UserPage = ({ id }) => {
                         <div className="container">
                             <div className="row gutters-sm">
                                 <UserInfoCards user={user}/>
-                                <UserCommentCards id={id}/>
+                                <CommentsProvider>
+                                    <UserCommentCards id={id}/>
+                                </CommentsProvider>
                             </div>
 
                         </div>
