@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../api";
+import React from "react";
 import PropTypes from "prop-types";
 import UserForm from "../../ui/userForm";
+import { useAuth } from "../../../hooks/useAuth";
 
 const EditUserPage = ({ id }) => {
-    const [user, setUser] = useState();
-    useEffect(() => {
-        api.users.getById(id).then(user => setUser(user));
-    }, []);
+    const { currentUser } = useAuth();
+
     return (
         <div className="col-md-6 offset-md-3 shadow p-4">
-            {user &&
-            <UserForm
-                user={user}
-            />}
+            {currentUser && <UserForm user={currentUser} />}
         </div>
     );
 };

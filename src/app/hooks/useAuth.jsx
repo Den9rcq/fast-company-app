@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ singUp, singIn, logOut, currentUser }}>
+        <AuthContext.Provider value={{ singUp, singIn, logOut, createUser, currentUser }}>
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );

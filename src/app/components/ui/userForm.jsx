@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import api from "../../api";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import { useHistory } from "react-router-dom";
+import { useQuality } from "../../hooks/useQuality";
+import { useProfession } from "../../hooks/useProfession";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
-        ...user,
-        name: user.name,
-        email: user.email ? user.email : "",
-        profession: user.profession,
-        sex: "male",
-        qualities: user.qualities
-    });
+                                         ...user,
+                                         name: user.name,
+                                         email: user.email ? user.email : "",
+                                         profession: user.profession,
+                                         sex: user.sex,
+                                         qualities: user.qualities
+                                     });
     const [errors, setErrors] = useState({});
-    const [professions, setProfessions] = useState();
-    const [qualities, setQualities] = useState([]);
+    const { professions } = useProfession();
     const history = useHistory();
-
-    useEffect(() => {
-        api.professions.fetchAll().then(date => setProfessions(date));
-        api.qualities.fetchAll().then(date => setQualities(date));
-    }, []);
+    const { qualities } = useQuality();
+    const { createUser } = useAuth();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -40,7 +38,8 @@ const UserForm = ({ user }) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        api.users.update(user._id, data);
+        const newData = { ...data, qualities: data.qualities.map(q => q._id) };
+        createUser(newData);
         history.push(`/users/${user._id}`);
     };
 
@@ -96,7 +95,7 @@ const UserForm = ({ user }) => {
             />
             <SelectField
                 label="Выберите свою профессию"
-                value={data.profession._id}
+                value={data.profession}
                 onChange={handleChange}
                 defaultOption="Chose..."
                 options={professions}
@@ -119,7 +118,7 @@ const UserForm = ({ user }) => {
                 options={qualities}
                 name="qualities"
                 onChange={handleChange}
-                defaultValue={data.qualities}
+                // defaultValue={data.qualities.map(getQuality)}
             />
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
                 Обновить

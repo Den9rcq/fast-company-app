@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 const RadioField = ({ label, options, value, onChange, name }) => {
     const handleChange = ({ target }) => {
-        console.log(target);
         onChange({ name: target.name, value: target.value });
     };
     return (
