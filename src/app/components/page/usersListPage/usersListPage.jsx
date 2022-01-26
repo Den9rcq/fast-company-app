@@ -15,7 +15,7 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
     const { users } = useUsers();
-    const { professions } = useProfession();
+    const { professions, isLoading: professionLoading } = useProfession();
     useEffect(() => setCurrentPage(1), [selectedProf, searchQuery]);
 
     // Удаление ползователя из листа
@@ -25,9 +25,7 @@ const UsersListPage = () => {
     };
     // Переключение флага избранное
     const handleToggleBookMark = (id) => {
-        const newArray = users.map((item) =>
-            item._id === id ? { ...item, favorites: !item.favorites } : item
-        );
+        const newArray = users.map((item) => item._id === id ? { ...item, favorites: !item.favorites } : item);
         // setUsers(newArray);
         console.log(newArray);
     };
@@ -58,7 +56,7 @@ const UsersListPage = () => {
     const filteredUsers = searchQuery
         ? users.filter(user => user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
         : selectedProf
-            ? users.filter((user) => user.profession._id === selectedProf._id)
+            ? users.filter((user) => user.profession === selectedProf._id)
             : users;
     const count = filteredUsers.length;
     // Сортированные пользователи по возрастанию(убыванию)
@@ -67,9 +65,9 @@ const UsersListPage = () => {
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     return (
         <div className="d-flex flex-column">
-            <SearchStatus length={count}/>
+            <SearchStatus length={count} />
             <div className="d-flex">
-                {professions &&
+                {professions && !professionLoading &&
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <SearchPanel
                         name="searchQuery"

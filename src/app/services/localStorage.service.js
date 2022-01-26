@@ -10,6 +10,14 @@ export const setTokens = async ({ expiresIn = 3600, idToken, refreshToken, local
     localStorage.setItem(EXPIRES_KEY, expiresDate);
     localStorage.setItem(USERID_KEY, localId);
 };
+
+export const removeAuthData = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_KEY);
+    localStorage.removeItem(EXPIRES_KEY);
+    localStorage.removeItem(USERID_KEY);
+};
+
 export const getAccessToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_KEY);
 export const getTokenExpiresDate = () => localStorage.getItem(EXPIRES_KEY);
@@ -20,7 +28,8 @@ const localStorageService = {
     getAccessToken,
     getRefreshToken,
     getTokenExpiresDate,
-    getUserId
+    getUserId,
+    removeAuthData
 };
 
 export default localStorageService;

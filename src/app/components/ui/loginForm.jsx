@@ -8,10 +8,10 @@ import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
     const [data, setData] = useState({
-        email: "",
-        password: "",
-        stayOn: false
-    });
+                                         email: "",
+                                         password: "",
+                                         stayOn: false
+                                     });
     const [errors, setErrors] = useState({});
     const { singIn } = useAuth();
     const history = useHistory();
@@ -32,7 +32,7 @@ const LoginForm = () => {
         try {
             await singIn(data);
             toast.success("Вход выполнен");
-            history.push("/");
+            history.push(history.location.state ? history.location.state.from.pathname : "/");
         } catch (e) {
             setErrors(e);
             toast.error("Данные введены некоректно");

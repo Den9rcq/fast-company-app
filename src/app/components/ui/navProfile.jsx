@@ -13,7 +13,7 @@ const NavProfile = () => {
         <div className="dropdown" onClick={toggleMenu}>
             <div className="btn dropdown-toggle d-flex align-items-center">
                 <div className="me-2">{currentUser.name}</div>
-                <Avatar size="40"/>
+                <Avatar url={currentUser.image} size="40"/>
             </div>
             <div className={`w-100 dropdown-menu ${isOpen ? "show" : ""}`}>
                 <Link to={`users/${currentUser._id}`} className="dropdown-item">
