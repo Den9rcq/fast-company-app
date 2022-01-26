@@ -4,15 +4,15 @@ import CommentsList from "./commentsList";
 import { useComments } from "../../hooks/useComments";
 
 const UserCommentCards = () => {
-    const { createComment, comments, isLoading } = useComments();
+    const { createComment, removeComment, comments, isLoading } = useComments();
 
     // Отправка данных
     const handleSubmit = (data) => {
         createComment(data);
     };
     // Удаление данных
-    const handleClick = (commentId) => {
-        console.log(commentId);
+    const handleRemoveComment = (commentId) => {
+        removeComment(commentId);
     };
 
     const sortedComments = comments.sort((a, b) => b.created_at - a.created_at);
@@ -22,7 +22,7 @@ const UserCommentCards = () => {
                 <CommentForm onSubmit={handleSubmit} />
                 {!isLoading && sortedComments.length !== 0 && <CommentsList
                     comments={sortedComments}
-                    onClick={handleClick}
+                    onClick={handleRemoveComment}
                 />}
             </div>
         </div>

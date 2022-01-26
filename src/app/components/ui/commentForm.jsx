@@ -50,7 +50,7 @@ const CommentForm = ({ onSubmit }) => {
                         type="textarea"
                         onChange={handleChange}
                         name="content"
-                        value={data.content}
+                        value={data.content || ""}
                         errors={errors.content}
                     />
                     <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>

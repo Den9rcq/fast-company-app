@@ -4,9 +4,11 @@ import PropTypes from "prop-types";
 import { closeX } from "../../utils/icons";
 import { getTimeDisplay } from "../../utils/timeDisplay";
 import { useUsers } from "../../hooks/useUsers";
+import { useAuth } from "../../hooks/useAuth";
 
 const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
     const { getUserById } = useUsers();
+    const { currentUser } = useAuth();
     const { name, image } = getUserById(userCommentId);
     return (
         <div className="bg-light card-body  mb-3">
@@ -23,12 +25,14 @@ const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
                                             {getTimeDisplay(date)}
                                         </span>
                                     </p>
-                                    <button
-                                        className="btn btn-sm text-primary d-flex align-items-center"
-                                        onClick={() => onClick(commentId)}
-                                    >
-                                        {closeX}
-                                    </button>
+                                    {currentUser._id === userCommentId && (
+                                        <button
+                                            className="btn btn-sm text-primary d-flex align-items-center"
+                                            onClick={() => onClick(commentId)}
+                                        >
+                                            {closeX}
+                                        </button>
+                                    )}
                                 </div>
                                 <p className="small mb-0">
                                     {content}
