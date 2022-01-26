@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
-import SelectField from "../common/form/selectField";
 import TextField from "../common/form/textField";
 import PropTypes from "prop-types";
 
-const CommentForm = ({ users, pageId, onSubmit }) => {
-    const [data, setData] = useState({
-        pageId: pageId,
-        userId: "",
-        content: ""
-    });
+const CommentForm = ({ onSubmit }) => {
+    const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
@@ -23,11 +18,7 @@ const CommentForm = ({ users, pageId, onSubmit }) => {
         const isValid = validate();
         if (!isValid) return;
         onSubmit(data);
-        setData({
-            pageId: pageId,
-            userId: "",
-            content: ""
-        });
+        setData({});
     };
 
     // Проверка при изменениях в data
@@ -37,11 +28,6 @@ const CommentForm = ({ users, pageId, onSubmit }) => {
 
     // Конфигурация отображение ошибок
     const validatorConfig = {
-        userId: {
-            isRequired: {
-                message: "Обязательно выберите пользователя"
-            }
-        },
         content: {
             isRequired: {
                 message: "Сообщение не может быть пустым"
@@ -53,20 +39,12 @@ const CommentForm = ({ users, pageId, onSubmit }) => {
         setErrors(errorsValidate);
         return Object.keys(errorsValidate).length === 0;
     };
-    const isValid = Object.keys(errors).length === 0;
+    const isValid = Object.keys(errors).length === 0 && data.content;
     return (
         <div className="card mb-2">
             <div className="card-body ">
                 <form onSubmit={handleSubmit}>
                     <h2>New comment</h2>
-                    <SelectField
-                        name="userId"
-                        onChange={handleChange}
-                        options={users}
-                        value={data.userId}
-                        defaultOption="Выберите пользователя"
-                        errors={errors.userId}
-                    />
                     <TextField
                         label="Сообщение"
                         type="textarea"
@@ -85,9 +63,6 @@ const CommentForm = ({ users, pageId, onSubmit }) => {
 };
 
 CommentForm.propTypes = {
-    users: PropTypes.array,
-    data: PropTypes.object,
-    pageId: PropTypes.string,
     onSubmit: PropTypes.func
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import CommentCard from "./commentCard";
 import PropTypes from "prop-types";
 
-const CommentsList = ({ comments, users, onClick }) => {
+const CommentsList = ({ comments, onClick }) => {
     return (
         <div className="card-body ">
             <h2>Comments</h2>
@@ -13,7 +13,6 @@ const CommentsList = ({ comments, users, onClick }) => {
                     date={c.created_at}
                     userCommentId={c.userId}
                     commentId={c._id}
-                    users={users}
                     onClick={onClick}
                 />
             )}
@@ -23,7 +22,6 @@ const CommentsList = ({ comments, users, onClick }) => {
 
 CommentsList.propTypes = {
     comments: PropTypes.array,
-    users: PropTypes.array,
     onClick: PropTypes.func
 };
 

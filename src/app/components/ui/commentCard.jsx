@@ -3,17 +3,17 @@ import Avatar from "../common/avatar";
 import PropTypes from "prop-types";
 import { closeX } from "../../utils/icons";
 import { getTimeDisplay } from "../../utils/timeDisplay";
+import { useUsers } from "../../hooks/useUsers";
 
-const CommentCard = ({ content, date, userCommentId, commentId, users, onClick }) => {
-    const userPostingComment = users.find(u => u._id === userCommentId);
-    const { name } = userPostingComment;
-
+const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
+    const { getUserById } = useUsers();
+    const { name, image } = getUserById(userCommentId);
     return (
         <div className="bg-light card-body  mb-3">
             <div className="row">
                 <div className="col">
                     <div className="d-flex flex-start ">
-                        <Avatar/>
+                        <Avatar url={image}/>
                         <div className="flex-grow-1 flex-shrink-1">
                             <div className="mb-4">
                                 <div className="d-flex justify-content-between align-items-center">
@@ -44,7 +44,7 @@ const CommentCard = ({ content, date, userCommentId, commentId, users, onClick }
 
 CommentCard.propTypes = {
     content: PropTypes.string,
-    date: PropTypes.string,
+    date: PropTypes.number,
     userCommentId: PropTypes.string,
     commentId: PropTypes.string,
     users: PropTypes.array,
