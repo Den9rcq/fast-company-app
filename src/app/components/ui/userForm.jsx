@@ -6,9 +6,10 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import { useHistory } from "react-router-dom";
-import { useQuality } from "../../hooks/useQuality";
-import { useProfession } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getQualities } from "../../store/qualities";
+import { getProfession } from "../../store/profession";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
@@ -20,9 +21,9 @@ const UserForm = ({ user }) => {
         qualities: user.qualities
     });
     const [errors, setErrors] = useState({});
-    const { professions } = useProfession();
+    const professions = useSelector(getProfession());
     const history = useHistory();
-    const { qualities, getQuality } = useQuality();
+    const qualities = useSelector(getQualities());
     const { createUser } = useAuth();
 
     // Изменение данных в data
@@ -74,7 +75,6 @@ const UserForm = ({ user }) => {
         return Object.keys(errorsValidate).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
-
     return (
         <form onSubmit={handleSubmit}>
             <TextField
@@ -116,7 +116,7 @@ const UserForm = ({ user }) => {
                 options={qualities}
                 name="qualities"
                 onChange={handleChange}
-                defaultValue={data.qualities.map(getQuality)}
+                defaultValue={data.qualities}
             />
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
                 Обновить

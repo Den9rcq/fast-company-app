@@ -2,7 +2,10 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
+const MultiSelectField = ({ options, onChange, name, label, defaultValue = [] }) => {
+    const findQuality = (qualityId) => options.find(q => q._id === qualityId);
+    defaultValue = defaultValue.map(findQuality);
+
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map(optionName => (
             {

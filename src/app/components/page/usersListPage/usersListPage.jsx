@@ -7,8 +7,9 @@ import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchPanel from "../../common/searchPanel";
 import { useUsers } from "../../../hooks/useUsers";
-import { useProfession } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getProfession, getProfessionLoadingStatus } from "../../../store/profession";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,15 +17,14 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
     const { users } = useUsers();
-    const { professions, isLoading: professionLoading } = useProfession();
+    const professions = useSelector(getProfession());
+    const professionLoading = useSelector(getProfessionLoadingStatus());
     const { currentUser } = useAuth();
-    useEffect(() => setCurrentPage(1), [selectedProf, searchQuery]);
 
-    // Удаление ползователя из листа
-    const handleDelete = (userId) => {
-        // setUsers(users.filter((user) => user._id !== userId));
-        console.log(userId);
-    };
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedProf, searchQuery]);
+
     // Переключение флага избранное
     const handleToggleBookMark = (id) => {
         const newArray = users.map((item) => item._id === id ? { ...item, favorites: !item.favorites } : item);
@@ -98,7 +98,6 @@ const UsersListPage = () => {
                     users={usersCrop}
                     onSort={handleSort}
                     selectedSort={sortBy}
-                    onDelete={handleDelete}
                     onToggleMark={handleToggleBookMark}
                 />}
             </div>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import UserForm from "../../ui/userForm";
 import { useAuth } from "../../../hooks/useAuth";
 
-const EditUserPage = ({ id }) => {
+const EditUserPage = () => {
     const { currentUser } = useAuth();
 
     return (
