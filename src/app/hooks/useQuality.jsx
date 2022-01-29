@@ -13,7 +13,7 @@ export const QualityProvider = ({ children }) => {
     // Полученик качеств
     const getQualityList = async () => {
         try {
-            const { content } = await qualityService.get();
+            const { content } = await qualityService.fetchAll();
             setQualities(content);
             setLoading(false);
         } catch (e) {
