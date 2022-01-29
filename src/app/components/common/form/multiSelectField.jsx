@@ -18,9 +18,10 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
             }));
 
     const handleChange = (value) => {
-        const correctValue = value.map(v => ({ ...v, name: v.label, _id: v.value }));
+        const correctValue = value.map(v => (v.value));
         onChange({ name, value: correctValue });
     };
+
     return (
         <div className="mb-4">
             <label className="form-label">

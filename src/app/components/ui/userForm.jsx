@@ -12,17 +12,17 @@ import { useAuth } from "../../hooks/useAuth";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
-                                         ...user,
-                                         name: user.name,
-                                         email: user.email ? user.email : "",
-                                         profession: user.profession,
-                                         sex: user.sex,
-                                         qualities: user.qualities
-                                     });
+        ...user,
+        name: user.name,
+        email: user.email ? user.email : "",
+        profession: user.profession,
+        sex: user.sex,
+        qualities: user.qualities
+    });
     const [errors, setErrors] = useState({});
     const { professions } = useProfession();
     const history = useHistory();
-    const { qualities } = useQuality();
+    const { qualities, getQuality } = useQuality();
     const { createUser } = useAuth();
 
     // Изменение данных в data
@@ -32,14 +32,12 @@ const UserForm = ({ user }) => {
             [target.name]: target.value
         }));
     };
-
     // Отправка данных
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        const newData = { ...data, qualities: data.qualities.map(q => q._id) };
-        createUser(newData);
+        createUser(data);
         history.push(`/users/${user._id}`);
     };
 
@@ -118,7 +116,7 @@ const UserForm = ({ user }) => {
                 options={qualities}
                 name="qualities"
                 onChange={handleChange}
-                // defaultValue={data.qualities.map(getQuality)}
+                defaultValue={data.qualities.map(getQuality)}
             />
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
                 Обновить

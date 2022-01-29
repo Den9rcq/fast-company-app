@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 const UserInfoCards = ({ user }) => {
     const history = useHistory();
     const handleEditUsers = () => history.push(`/users/${user._id}/edit`);
-
     return (
         <div className="col-md-4 mb-3">
             <UserCard user={user} onClick={handleEditUsers}/>

@@ -40,9 +40,8 @@ const RegisterForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        const newData = { ...data, qualities: data.qualities.map(q => q._id) };
         try {
-            await singUp(newData);
+            await singUp(data);
             toast.success("Пользователь создан");
             history.push("/");
         } catch (e) {
