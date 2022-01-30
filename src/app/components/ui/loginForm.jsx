@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../store/users";
+import history from "../../utils/history";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
-    const history = useHistory();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -29,10 +28,10 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        dispatch(logIn(data));
-        history.push(history.location.state
+        const redirect = history.location.state
             ? history.location.state.from.pathname
-            : "/");
+            : "/";
+        dispatch(logIn({ payload: data, redirect }));
     };
 
     // Проверка при изменениях в data

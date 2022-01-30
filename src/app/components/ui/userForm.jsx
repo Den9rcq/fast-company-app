@@ -5,11 +5,11 @@ import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
 import { updateUser } from "../../store/users";
+import history from "../../utils/history";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
@@ -23,7 +23,6 @@ const UserForm = ({ user }) => {
     const [errors, setErrors] = useState({});
     const professions = useSelector(getProfessions());
     const dispatch = useDispatch();
-    const history = useHistory();
     const qualities = useSelector(getQualities());
 
     // Изменение данных в data
@@ -39,7 +38,6 @@ const UserForm = ({ user }) => {
         const isValid = validate();
         if (!isValid) return;
         dispatch(updateUser(data));
-        history.push(`/users/${user._id}`);
     };
 
     // Проверка при изменениях в data

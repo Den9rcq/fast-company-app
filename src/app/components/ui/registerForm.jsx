@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
 import { singUp } from "../../store/users";
-import { useHistory } from "react-router-dom";
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const RegisterForm = () => {
     const [errors, setErrors] = useState({});
     const professions = useSelector(getProfessions());
     const qualities = useSelector(getQualities());
-    const history = useHistory();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -42,7 +40,6 @@ const RegisterForm = () => {
         const isValid = validate();
         if (!isValid) return;
         dispatch(singUp(data));
-        history.push("/users");
         toast.success("Пользователь создан");
     };
 

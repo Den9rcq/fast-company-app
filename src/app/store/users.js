@@ -3,6 +3,7 @@ import userService from "../services/user.service";
 import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import { getRandomInt } from "../utils/getRandomInt";
+import history from "../utils/history";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -101,18 +102,20 @@ export const singUp = ({ email, password, ...rest }) => async (dispatch) => {
                 (Math.random() + 1).toString(36).substring(7)}.svg`,
             ...rest
         }));
+        history.push("/users");
     } catch (e) {
         dispatch(authRequestFailed(e.message));
     }
 };
 
-export const logIn = (payload) => async (dispatch) => {
+export const logIn = ({ payload, redirect }) => async (dispatch) => {
     const { email, password } = payload;
     dispatch(authRequested());
     try {
         const data = await authService.login({ email, password });
         await localStorageService.setTokens(data);
         dispatch(authRequestSuccess({ userId: data.localId }));
+        history.push(redirect);
     } catch (e) {
         dispatch(authRequestFailed(e.message));
     }
@@ -135,6 +138,7 @@ export const updateUser = (payload) => async (dispatch) => {
     try {
         const { content } = await userService.create(payload);
         dispatch(userUpdate(content));
+        history.push(`/users/${payload._id}`);
     } catch (e) {
         dispatch(updateUserFailed());
     }
@@ -143,6 +147,7 @@ export const updateUser = (payload) => async (dispatch) => {
 export const logOut = () => (dispatch) => {
     localStorageService.removeAuthData();
     dispatch(userLogOut());
+    history.push("/");
 };
 
 export const loadUsersList = () => async (dispatch) => {
