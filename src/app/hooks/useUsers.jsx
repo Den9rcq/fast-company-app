@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
     // Запрос всех пользователей
     const getUsers = async () => {
         try {
-            const { content } = await userService.get();
+            const { content } = await userService.fetchAll();
             setUsers(content);
             setLoading(false);
         } catch (e) {
