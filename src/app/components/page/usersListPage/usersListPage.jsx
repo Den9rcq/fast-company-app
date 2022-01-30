@@ -6,10 +6,9 @@ import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchPanel from "../../common/searchPanel";
-import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { getProfessions, getProfessionsLoadingStatus } from "../../../store/professions";
-import { getUsers } from "../../../store/users";
+import { getCurrentUserId, getUsers } from "../../../store/users";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +18,7 @@ const UsersListPage = () => {
     const users = useSelector(getUsers());
     const professions = useSelector(getProfessions());
     const professionLoading = useSelector(getProfessionsLoadingStatus());
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
     useEffect(() => {
         setCurrentPage(1);
@@ -63,7 +62,7 @@ const UsersListPage = () => {
                 ? users.filter((data) => data.profession === selectedProf._id)
                 : users;
 
-        return filteredUsers.filter(user => user._id !== currentUser._id);
+        return filteredUsers.filter(user => user._id !== currentUserId);
     };
 
     const filteredUsers = filterUsers(users);

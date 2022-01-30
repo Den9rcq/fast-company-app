@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import UserForm from "../../ui/userForm";
-import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
-    const { currentUser } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
 
     return (
         <div className="col-md-6 offset-md-3 shadow p-4">

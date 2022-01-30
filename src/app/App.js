@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NavBar from "./components/ui/navBar";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Main from "./layouts/main";
@@ -11,37 +11,29 @@ import { QualityProvider } from "./hooks/useQuality";
 import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/common/protectedRoute";
 import LogOut from "./layouts/logOut";
-import { useDispatch } from "react-redux";
-import { loadQualitiesList } from "./store/qualities";
-import { loadProfessionsList } from "./store/professions";
-import { loadUsersList } from "./store/users";
+import AppLoader from "./components/ui/hoc/appLoader";
 
 const App = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(loadUsersList());
-        dispatch(loadQualitiesList());
-        dispatch(loadProfessionsList());
-    }, []);
-
     return (
         <>
-            <AuthProvider>
-                <NavBar />
-                <ProfessionProvider>
-                    <QualityProvider>
-                        <Switch>
-                            <Route path="/login/:type?" component={Login} />
-                            <ProtectedRoute path="/users/:userId?/:edit?" component={Users} />
-                            <Route path="/logout" component={LogOut} />
-                            <Route path="/" component={Main} />
-                            <Redirect to="/" />
-                        </Switch>
-                    </QualityProvider>
-                </ProfessionProvider>
-            </AuthProvider>
+            <AppLoader>
+                <AuthProvider>
+                    <NavBar />
+                    <ProfessionProvider>
+                        <QualityProvider>
+                            <Switch>
+                                <Route path="/login/:type?" component={Login} />
+                                <ProtectedRoute path="/users/:userId?/:edit?" component={Users} />
+                                <Route path="/logout" component={LogOut} />
+                                <Route path="/" component={Main} />
+                                <Redirect to="/" />
+                            </Switch>
+                        </QualityProvider>
+                    </ProfessionProvider>
+                </AuthProvider>
+            </AppLoader>
             <ToastContainer />
+
         </>
     );
 };

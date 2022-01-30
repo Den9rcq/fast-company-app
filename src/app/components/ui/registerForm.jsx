@@ -5,14 +5,15 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useAuth } from "../../hooks/useAuth";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
+import { singUp } from "../../store/users";
+import { useHistory } from "react-router-dom";
 
 const RegisterForm = () => {
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -25,7 +26,6 @@ const RegisterForm = () => {
     const [errors, setErrors] = useState({});
     const professions = useSelector(getProfessions());
     const qualities = useSelector(getQualities());
-    const { singUp } = useAuth();
     const history = useHistory();
 
     // Изменение данных в data
@@ -37,17 +37,13 @@ const RegisterForm = () => {
     };
 
     // Отправка данных
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        try {
-            await singUp(data);
-            toast.success("Пользователь создан");
-            history.push("/");
-        } catch (e) {
-            setErrors(e);
-        }
+        dispatch(singUp(data));
+        history.push("/users");
+        toast.success("Пользователь создан");
     };
 
     // Проверка при изменениях в data

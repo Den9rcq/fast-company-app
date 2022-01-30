@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { useAuth } from "./useAuth";
 import { nanoid } from "nanoid";
 import commentService from "../services/comment.service";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../store/users";
 
 const CommentsContext = React.createContext();
 export const useComments = () => useContext(CommentsContext);
@@ -13,11 +14,11 @@ export const CommentsProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [errors, setErrors] = useState("");
     const { userId } = useParams();
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
-   useEffect(() => {
-       getComments();
-   }, [userId]);
+    useEffect(() => {
+        getComments();
+    }, [userId]);
     useEffect(() => {
         if (errors) {
             toast.error(errors);
@@ -25,24 +26,24 @@ export const CommentsProvider = ({ children }) => {
         }
     }, [errors]);
 
-   async function createComment(data) {
-       const comment = {
-           ...data,
-           _id: nanoid(),
-           pageId: userId,
-           created_at: Date.now(),
-           userId: currentUser._id
-       };
+    async function createComment(data) {
+        const comment = {
+            ...data,
+            _id: nanoid(),
+            pageId: userId,
+            created_at: Date.now(),
+            userId: currentUserId
+        };
 
-       try {
-           const { content } = await commentService.createComment(comment);
-           setComments(prevState => [...prevState, content]);
-       } catch (e) {
-           errorCatcher(e);
-       }
-   }
+        try {
+            const { content } = await commentService.createComment(comment);
+            setComments(prevState => [...prevState, content]);
+        } catch (e) {
+            errorCatcher(e);
+        }
+    }
 
-   async function getComments() {
+    async function getComments() {
         try {
             const { content } = await commentService.getComment(userId);
             setComments(content);
@@ -51,18 +52,18 @@ export const CommentsProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-   }
+    }
 
-   async function removeComment(id) {
-       try {
-           const { content } = await commentService.removeComment(id);
-           if (content === null) {
-               setComments(prevState => prevState.filter(comment => comment._id !== id));
-           }
-       } catch (e) {
-           errorCatcher(e);
-       }
-   }
+    async function removeComment(id) {
+        try {
+            const { content } = await commentService.removeComment(id);
+            if (content === null) {
+                setComments(prevState => prevState.filter(comment => comment._id !== id));
+            }
+        } catch (e) {
+            errorCatcher(e);
+        }
+    }
 
     // Отработка ошибок
     const errorCatcher = (error) => {

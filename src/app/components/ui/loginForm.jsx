@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useAuth } from "../../hooks/useAuth";
-import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../store/users";
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
     const [data, setData] = useState({
-                                         email: "",
-                                         password: "",
-                                         stayOn: false
-                                     });
+        email: "",
+        password: "",
+        stayOn: false
+    });
     const [errors, setErrors] = useState({});
-    const { singIn } = useAuth();
     const history = useHistory();
 
     // Изменение данных в data
@@ -25,18 +25,14 @@ const LoginForm = () => {
     };
 
     // Отправка данных
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        try {
-            await singIn(data);
-            toast.success("Вход выполнен");
-            history.push(history.location.state ? history.location.state.from.pathname : "/");
-        } catch (e) {
-            setErrors(e);
-            toast.error("Данные введены некоректно");
-        }
+        dispatch(logIn(data));
+        history.push(history.location.state
+            ? history.location.state.from.pathname
+            : "/");
     };
 
     // Проверка при изменениях в data

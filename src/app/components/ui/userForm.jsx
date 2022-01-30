@@ -6,10 +6,10 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
+import { updateUser } from "../../store/users";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
@@ -22,9 +22,9 @@ const UserForm = ({ user }) => {
     });
     const [errors, setErrors] = useState({});
     const professions = useSelector(getProfessions());
+    const dispatch = useDispatch();
     const history = useHistory();
     const qualities = useSelector(getQualities());
-    const { createUser } = useAuth();
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -38,7 +38,7 @@ const UserForm = ({ user }) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        createUser(data);
+        dispatch(updateUser(data));
         history.push(`/users/${user._id}`);
     };
 

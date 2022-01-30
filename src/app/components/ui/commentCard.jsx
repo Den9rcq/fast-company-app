@@ -3,12 +3,11 @@ import Avatar from "../common/avatar";
 import PropTypes from "prop-types";
 import { closeX } from "../../utils/icons";
 import { getTimeDisplay } from "../../utils/timeDisplay";
-import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
-import { getUserById } from "../../store/users";
+import { getCurrentUserId, getUserById } from "../../store/users";
 
 const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
     const { name, image } = useSelector(getUserById(userCommentId));
     return (
         <div className="bg-light card-body  mb-3">
@@ -25,7 +24,7 @@ const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
                                             {getTimeDisplay(date)}
                                         </span>
                                     </p>
-                                    {currentUser._id === userCommentId && (
+                                    {currentUserId === userCommentId && (
                                         <button
                                             className="btn btn-sm text-primary d-flex align-items-center"
                                             onClick={() => onClick(commentId)}

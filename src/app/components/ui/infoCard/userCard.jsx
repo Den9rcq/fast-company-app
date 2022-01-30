@@ -2,10 +2,11 @@ import React from "react";
 import { caretDownFill, caretUpFill, gear } from "../../../utils/icons";
 import PropTypes from "prop-types";
 import Avatar from "../../common/avatar";
-import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getCurrentUserData } from "../../../store/users";
 
 const UserCard = ({ user, onClick }) => {
-    const { currentUser } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
     const { name, profession, rate } = user;
     return (
         <div className="card mb-3">
