@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
-import { getProfession } from "../../store/profession";
+import { getProfessions } from "../../store/professions";
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -23,7 +23,7 @@ const RegisterForm = () => {
         license: false
     });
     const [errors, setErrors] = useState({});
-    const professions = useSelector(getProfession());
+    const professions = useSelector(getProfessions());
     const qualities = useSelector(getQualities());
     const { singUp } = useAuth();
     const history = useHistory();

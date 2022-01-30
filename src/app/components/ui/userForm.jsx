@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
-import { getProfession } from "../../store/profession";
+import { getProfessions } from "../../store/professions";
 
 const UserForm = ({ user }) => {
     const [data, setData] = useState({
@@ -21,7 +21,7 @@ const UserForm = ({ user }) => {
         qualities: user.qualities
     });
     const [errors, setErrors] = useState({});
-    const professions = useSelector(getProfession());
+    const professions = useSelector(getProfessions());
     const history = useHistory();
     const qualities = useSelector(getQualities());
     const { createUser } = useAuth();

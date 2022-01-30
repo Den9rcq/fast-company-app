@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/common/protectedRoute";
 import LogOut from "./layouts/logOut";
 import { useDispatch } from "react-redux";
 import { loadQualitiesList } from "./store/qualities";
-import { loadProfessionList } from "./store/profession";
+import { loadProfessionsList } from "./store/professions";
 import { loadUsersList } from "./store/users";
 
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
     useEffect(() => {
         dispatch(loadUsersList());
         dispatch(loadQualitiesList());
-        dispatch(loadProfessionList());
+        dispatch(loadProfessionsList());
     }, []);
 
     return (

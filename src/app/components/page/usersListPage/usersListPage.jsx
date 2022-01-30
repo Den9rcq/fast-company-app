@@ -8,7 +8,7 @@ import _ from "lodash";
 import SearchPanel from "../../common/searchPanel";
 import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
-import { getProfession, getProfessionLoadingStatus } from "../../../store/profession";
+import { getProfessions, getProfessionsLoadingStatus } from "../../../store/professions";
 import { getUsers } from "../../../store/users";
 
 const UsersListPage = () => {
@@ -17,8 +17,8 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
     const users = useSelector(getUsers());
-    const professions = useSelector(getProfession());
-    const professionLoading = useSelector(getProfessionLoadingStatus());
+    const professions = useSelector(getProfessions());
+    const professionLoading = useSelector(getProfessionsLoadingStatus());
     const { currentUser } = useAuth();
 
     useEffect(() => {
