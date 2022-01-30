@@ -20,9 +20,9 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(loadUsersList());
         dispatch(loadQualitiesList());
         dispatch(loadProfessionList());
-        dispatch(loadUsersList());
     }, []);
 
     return (

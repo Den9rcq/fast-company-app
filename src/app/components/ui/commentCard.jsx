@@ -3,13 +3,13 @@ import Avatar from "../common/avatar";
 import PropTypes from "prop-types";
 import { closeX } from "../../utils/icons";
 import { getTimeDisplay } from "../../utils/timeDisplay";
-import { useUsers } from "../../hooks/useUsers";
 import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getUserById } from "../../store/users";
 
 const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
-    const { getUserById } = useUsers();
     const { currentUser } = useAuth();
-    const { name, image } = getUserById(userCommentId);
+    const { name, image } = useSelector(getUserById(userCommentId));
     return (
         <div className="bg-light card-body  mb-3">
             <div className="row">
