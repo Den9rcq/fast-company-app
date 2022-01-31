@@ -4,6 +4,7 @@ import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import { getRandomInt } from "../utils/getRandomInt";
 import history from "../utils/history";
+import { generateAuthError } from "../utils/generateAuthError";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -41,6 +42,7 @@ const usersSlice = createSlice({
         },
         authRequested: (state) => {
             state.isLoggedIn = false;
+            state.error = null;
         },
         authRequestSuccess: (state, action) => {
             state.auth = action.payload;
@@ -117,7 +119,11 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
         dispatch(authRequestSuccess({ userId: data.localId }));
         history.push(redirect);
     } catch (e) {
-        dispatch(authRequestFailed(e.message));
+        const { code, message } = e.response.data.error;
+        if (code === 400) {
+            const errorMessage = generateAuthError(message);
+            dispatch(authRequestFailed(errorMessage));
+        }
     }
 };
 
@@ -165,10 +171,10 @@ export const getUserById = (userId) => (state) => state.users.entities.find(user
 export const getCurrentUserData = () => (state) => state.users.entities
     ? state.users.entities.find(user => user._id === state.users.auth.userId)
     : null;
-
 export const getCurrentUserId = () => (state) => state.users.auth.userId;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getDataStatus = () => (state) => state.users.dataLoaded;
+export const getErrorMessage = () => (state) => state.users.error;
 
 export default usersReducer;

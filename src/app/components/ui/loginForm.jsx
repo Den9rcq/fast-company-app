@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useDispatch } from "react-redux";
-import { logIn } from "../../store/users";
+import { useDispatch, useSelector } from "react-redux";
+import { getErrorMessage, logIn } from "../../store/users";
 import history from "../../utils/history";
 
 const LoginForm = () => {
@@ -14,6 +14,7 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
+    const errorMessage = useSelector(getErrorMessage());
 
     // Изменение данных в data
     const handleChange = (target) => {
@@ -98,6 +99,7 @@ const LoginForm = () => {
             >
                 Оставаться в сети
             </CheckBoxField>
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
             <button className="btn btn-primary w-100 mx-auto" disabled={!isValid}>
                 Submit
             </button>
