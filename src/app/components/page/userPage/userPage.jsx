@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import UserInfoCards from "../../ui/userInfoCards";
 import UserCommentCards from "../../ui/userCommentCards";
-import { CommentsProvider } from "../../../hooks/useComments";
 import { getUserById } from "../../../store/users";
 import { useSelector } from "react-redux";
 
@@ -16,9 +15,7 @@ const UserPage = ({ id }) => {
                         <div className="container">
                             <div className="row gutters-sm">
                                 <UserInfoCards user={user} />
-                                <CommentsProvider>
                                     <UserCommentCards />
-                                </CommentsProvider>
                             </div>
 
                         </div>
