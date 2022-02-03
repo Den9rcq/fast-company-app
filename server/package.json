@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Denis Bugreev <den9.rcq@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "config": "^3.3.7",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.0"
+  }
 }
