@@ -15,6 +15,17 @@ const PORT = config.get('port') ?? 8080
 //     console.log('Developments')
 // }
 
-app.listen(PORT, () => {
-    console.log(chalk.green(`Server has been started on port: ${PORT}`))
-})
+async function start() {
+    try {
+        await mongoose.connect(config.get('mongoUri'))
+        console.log(chalk.green('MongoDB connected'))
+        app.listen(PORT, () => {
+            console.log(chalk.green(`Server has been started on port: ${PORT}`))
+        })
+    } catch (e) {
+        console.log(chalk.red(e.message))
+        process.exit(1)
+    }
+}
+start()
+
