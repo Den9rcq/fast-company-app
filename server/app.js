@@ -4,6 +4,8 @@ const config = require('config')
 const chalk = require('chalk')
 
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 const PORT = config.get('port') ?? 8080
 
