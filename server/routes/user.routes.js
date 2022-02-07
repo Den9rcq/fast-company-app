@@ -1,27 +1,35 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 const User = require('../models/User')
+const auth = require('../middleware/auth.middleware')
 
-router.get('/', async (res, req) => {
+router.patch('/:userId', auth, async (req, res) => {
     try {
-        const list = await User.find()
-        req.send(list)
+        const { userId } = req.params
+        if (userId === req.user._id) {
+            const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true })
+            res.send(updatedUser)
+        } else {
+            res.status(401).json({ message: 'Unauthorized' })
+        }
     } catch (e) {
-        req.status(500).json({
-            message: 'На сервере произошла ошибка'
+        res.status(500).json({
+            message: `На сервере произошла ошибка`
         })
     }
 })
-router.patch('/:id', async (res, req) => {
-    try {
-        const { id } = req.params
-        const updatedUser = await User.findByIdAndUpdate(id, req.body, {new: true})
-        req.send(updatedUser)
-    } catch (e) {
-        req.status(500).json({
-            message: 'На сервере произошла ошибка'
-        })
+
+router.get('/', auth, async (req, res) => {
+        try {
+            const list = await User.find()
+            res.send(list)
+        } catch (e) {
+            res.status(500).json({
+                message: 'На сервере произошла ошибка'
+            })
+        }
     }
-})
+)
+
 
 module.exports = router
