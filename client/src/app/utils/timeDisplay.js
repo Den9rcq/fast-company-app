@@ -1,12 +1,12 @@
 export const getTimeDisplay = (time) => {
     const currentTime = new Date();
-    const dateTime = new Date(Number(time));
+    const dateTime = new Date(time);
     const dateYear = dateTime.getFullYear();
     const dateMonth = zero(dateTime.getMonth() + 1);
     const dateDay = zero(dateTime.getDay());
     const dateHours = zero(dateTime.getHours());
     const dateMinutes = zero(dateTime.getMinutes());
-    const differenceTimeMinutes = (currentTime - time) / 1000 / 60;
+    const differenceTimeMinutes = (currentTime - dateTime) / 1000 / 60;
 
     if (differenceTimeMinutes <= 1) return "1 минуту назад";
     else if (differenceTimeMinutes > 1 && differenceTimeMinutes <= 5) return "5 минут назад";

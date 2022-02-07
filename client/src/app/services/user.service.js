@@ -12,7 +12,7 @@ const userService = {
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(userEndpoint + payload._id, payload);
+        const { data } = await httpService.patch(userEndpoint + payload._id, payload);
         return data;
     }
 };

@@ -47,7 +47,7 @@ const CommentCard = ({ content, date, userCommentId, commentId, onClick }) => {
 
 CommentCard.propTypes = {
     content: PropTypes.string,
-    date: PropTypes.number,
+    date: PropTypes.string,
     userCommentId: PropTypes.string,
     commentId: PropTypes.string,
     users: PropTypes.array,

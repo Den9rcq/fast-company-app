@@ -2,7 +2,6 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 import userService from "../services/user.service";
 import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
-import { getRandomInt } from "../utils/getRandomInt";
 import history from "../utils/history";
 import { generateAuthError } from "../utils/generateAuthError";
 
@@ -74,36 +73,21 @@ const {
     usersRequestFailed,
     authRequestSuccess,
     authRequestFailed,
-    userCreated,
     authRequested,
     userLogOut,
     userUpdate
 } = actions;
 
 // const authRequested = createAction("users/authRequested");
-const userCreateRequested = createAction("users/userCreateRequested");
 const userUpdateRequested = createAction("users/userUpdateRequested");
-const createUserFailed = createAction("users/createUserFailed");
 const updateUserFailed = createAction("users/updateUserFailed");
 
-export const singUp = ({ email, password, ...rest }) => async (dispatch) => {
+export const singUp = (payload) => async (dispatch) => {
     dispatch(authRequested());
     try {
-        const data = await authService.register({
-            email,
-            password
-        });
+        const data = await authService.register(payload);
         await localStorageService.setTokens(data);
-        dispatch(authRequestSuccess({ userId: data.localId }));
-        dispatch(createUser({
-            _id: data.localId,
-            email,
-            rate: getRandomInt(1, 5),
-            completedMeetings: getRandomInt(0, 200),
-            image: `https://avatars.dicebear.com/api/avataaars/${
-                (Math.random() + 1).toString(36).substring(7)}.svg`,
-            ...rest
-        }));
+        dispatch(authRequestSuccess({ userId: data.userId }));
         history.push("/users");
     } catch (e) {
         dispatch(authRequestFailed(e.message));
@@ -116,7 +100,7 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
     try {
         const data = await authService.login({ email, password });
         await localStorageService.setTokens(data);
-        dispatch(authRequestSuccess({ userId: data.localId }));
+        dispatch(authRequestSuccess({ userId: data.userId }));
         history.push(redirect);
     } catch (e) {
         const { code, message } = e.response.data.error;
@@ -125,18 +109,6 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
             dispatch(authRequestFailed(errorMessage));
         }
     }
-};
-
-function createUser(payload) {
-    return async function (dispatch) {
-        dispatch(userCreateRequested());
-        try {
-            const { content } = await userService.create(payload);
-            dispatch(userCreated(content));
-        } catch (e) {
-            dispatch(createUserFailed(e.message));
-        }
-    };
 };
 
 export const updateUser = (payload) => async (dispatch) => {

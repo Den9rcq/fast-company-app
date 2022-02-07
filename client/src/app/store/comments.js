@@ -53,7 +53,7 @@ export const createComment = (payload) => async (dispatch) => {
 export const removeComment = (payload) => async (dispatch) => {
     try {
         const { content } = await commentService.removeComment(payload);
-        if (content === null) {
+        if (!content) {
             dispatch(commentRemove(payload));
         }
     } catch (e) {
