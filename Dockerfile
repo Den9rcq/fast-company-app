@@ -14,7 +14,7 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY server/package.json
+COPY server/package.json /app
 
 RUN npm install
 
